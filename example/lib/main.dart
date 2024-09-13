@@ -1,5 +1,6 @@
 import 'package:example/log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_logkit/models/print_log_settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Logkit Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Logkit Demo'),
     );
   }
 }
@@ -45,20 +46,28 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OutlinedButton(
-                onPressed: () {
-                  logger.i('click button', topic: logTopic);
-                },
-                child: const Text('click'))
-          ],
-        ),
+      appBar: AppBar(title: Text(widget.title)),
+      body: ListView(
+        children: [
+          ListTile(
+            title: const Text('tap without print time'),
+            onTap: () {
+              logger.i('tap',
+                  topic: logTopic,
+                  settings: const PrintLogSettings(printTime: false));
+            },
+          ),
+          ListTile(
+            title: const Text('catch error'),
+            onTap: () {
+              try {
+                throw ArgumentError.notNull('fake');
+              } catch (e) {
+                logger.e(e.toString(), error: e);
+              }
+            },
+          ),
+        ],
       ),
     );
   }

@@ -12,4 +12,6 @@ abstract class LogRecord {
   }) : time = DateTime.now();
 
   String format();
+
+  String get formatedTime => time.toString();
 }
