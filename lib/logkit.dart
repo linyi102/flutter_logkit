@@ -1,3 +1,3 @@
 library logkit;
 
-export './widgets/logkit_overlay.dart';
+export './logger.dart';

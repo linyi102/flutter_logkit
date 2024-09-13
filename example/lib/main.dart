@@ -1,5 +1,5 @@
+import 'package:example/log.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/logkit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -30,11 +31,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final logTopic = 'Home';
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      LogkitOverlay.attach(context);
+      logger.i('attach logkit overlay');
+      logger.attachOverlay(context);
     });
   }
 
@@ -47,7 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [],
+          children: [
+            OutlinedButton(
+                onPressed: () {
+                  logger.i('click button', topic: logTopic);
+                },
+                child: const Text('click'))
+          ],
         ),
       ),
     );

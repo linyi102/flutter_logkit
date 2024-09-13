@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/log_record.dart';
 import 'package:flutter_logkit/models/print_log_record.dart';
+import 'package:flutter_logkit/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
 
 class LogkitLogger {
   late final Logger _logger;
   final _records = ValueNotifier(<LogRecord>[]);
   ValueNotifier<List<LogRecord>> get records => _records;
+  final bool printLog;
 
-  LogkitLogger() {
-    _logger = Logger();
+  LogkitLogger({
+    this.printLog = false,
+  }) {
+    _logger = Logger(
+      printer: SimplePrinter(printTime: true),
+    );
+  }
+
+  void attachOverlay(BuildContext context) {
+    LogkitOverlay.attach(context);
   }
 
   void v(
@@ -17,8 +27,15 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
-    t(message, time: time, error: error, stackTrace: stackTrace);
+    t(message,
+        time: time,
+        error: error,
+        stackTrace: stackTrace,
+        topic: topic,
+        printLog: printLog);
   }
 
   void t(
@@ -26,9 +43,15 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
     logPrint(Level.trace, message,
-        time: time, error: error, stackTrace: stackTrace);
+        time: time,
+        error: error,
+        stackTrace: stackTrace,
+        topic: topic,
+        printLog: printLog);
   }
 
   void d(
@@ -36,9 +59,15 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
     logPrint(Level.debug, message,
-        time: time, error: error, stackTrace: stackTrace);
+        time: time,
+        error: error,
+        stackTrace: stackTrace,
+        topic: topic,
+        printLog: printLog);
   }
 
   void i(
@@ -46,9 +75,15 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
     logPrint(Level.info, message,
-        time: time, error: error, stackTrace: stackTrace);
+        time: time,
+        error: error,
+        stackTrace: stackTrace,
+        topic: topic,
+        printLog: printLog);
   }
 
   void w(
@@ -56,9 +91,15 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
     logPrint(Level.warning, message,
-        time: time, error: error, stackTrace: stackTrace);
+        time: time,
+        error: error,
+        stackTrace: stackTrace,
+        topic: topic,
+        printLog: printLog);
   }
 
   void e(
@@ -66,9 +107,15 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
     logPrint(Level.error, message,
-        time: time, error: error, stackTrace: stackTrace);
+        time: time,
+        error: error,
+        stackTrace: stackTrace,
+        topic: topic,
+        printLog: printLog);
   }
 
   void logPrint(
@@ -77,13 +124,19 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
+    String? topic,
+    bool? printLog,
   }) {
     message ??= '<null>';
     if (message.isEmpty) message = '<empty>';
 
-    _logger.log(level, message,
-        time: time, error: error, stackTrace: stackTrace);
-    records.value.add(PrintLogRecord(message, level: level));
+    final record =
+        PrintLogRecord(message, level: level, topic: topic ?? 'default');
+    records.value.add(record);
+    if (printLog ?? this.printLog) {
+      _logger.log(level, record.format(),
+          time: time, error: error, stackTrace: stackTrace);
+    }
   }
 
   // TODO
