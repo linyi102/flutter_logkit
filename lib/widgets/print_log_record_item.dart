@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/print_log_record.dart';
+import 'package:flutter_logkit/utils/clipboard.dart';
 
 class PrintLogRecordItem extends StatelessWidget {
   const PrintLogRecordItem(this.record, {super.key});
@@ -8,7 +9,11 @@ class PrintLogRecordItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(record.message),
+      title: Text(
+        record.message,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+      ),
       subtitle: Text(record.formatedTime),
       trailing: Text(record.level.name),
       onTap: () {
@@ -29,6 +34,17 @@ class PrintLogRecordItem extends StatelessWidget {
                 ],
               ),
             ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    ClipboardUtil.copy(
+                      context: context,
+                      text: record.message,
+                    );
+                    Navigator.pop(context);
+                  },
+                  child: const Text('复制'))
+            ],
           ),
         );
       },

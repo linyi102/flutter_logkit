@@ -38,6 +38,14 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
+            title: const Text('long message'),
+            onTap: () {
+              logger.i('long' * 99,
+                  topic: logTopic,
+                  settings: const PrintLogSettings(printTime: false));
+            },
+          ),
+          ListTile(
             title: const Text('catch error'),
             onTap: () {
               try {
