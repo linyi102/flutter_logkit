@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/log_record.dart';
-import 'package:flutter_logkit/models/print_log_record.dart';
-import 'package:flutter_logkit/models/print_log_settings.dart';
+import 'package:flutter_logkit/models/simple_log_record.dart';
+import 'package:flutter_logkit/models/simple_log_settings.dart';
 import 'package:flutter_logkit/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
 
@@ -9,10 +9,10 @@ class LogkitLogger {
   late final Logger _logger;
   final _records = ValueNotifier(<LogRecord>[]);
   ValueNotifier<List<LogRecord>> get records => _records;
-  final PrintLogSettings printLogSettings;
+  final SimpleLogSettings simpleLogSettings;
 
   LogkitLogger({
-    this.printLogSettings = const PrintLogSettings(
+    this.simpleLogSettings = const SimpleLogSettings(
         printLog: true, printTime: true, printTopic: true),
   }) {
     _logger = Logger(
@@ -36,11 +36,11 @@ class LogkitLogger {
     String? message, {
     Object? error,
     StackTrace? stackTrace,
-    String? topic,
-    PrintLogSettings? settings,
+    String? tag,
+    SimpleLogSettings? settings,
   }) {
     logPrint(Level.trace, message,
-        error: error, stackTrace: stackTrace, topic: topic, settings: settings);
+        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   /// Log a message at level [Level.debug].
@@ -48,11 +48,11 @@ class LogkitLogger {
     String? message, {
     Object? error,
     StackTrace? stackTrace,
-    String? topic,
-    PrintLogSettings? settings,
+    String? tag,
+    SimpleLogSettings? settings,
   }) {
     logPrint(Level.debug, message,
-        error: error, stackTrace: stackTrace, topic: topic, settings: settings);
+        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   /// Log a message at level [Level.info].
@@ -60,11 +60,11 @@ class LogkitLogger {
     String? message, {
     Object? error,
     StackTrace? stackTrace,
-    String? topic,
-    PrintLogSettings? settings,
+    String? tag,
+    SimpleLogSettings? settings,
   }) {
     logPrint(Level.info, message,
-        error: error, stackTrace: stackTrace, topic: topic, settings: settings);
+        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   /// Log a message at level [Level.warning].
@@ -73,11 +73,11 @@ class LogkitLogger {
     DateTime? time,
     Object? error,
     StackTrace? stackTrace,
-    String? topic,
-    PrintLogSettings? settings,
+    String? tag,
+    SimpleLogSettings? settings,
   }) {
     logPrint(Level.warning, message,
-        error: error, stackTrace: stackTrace, topic: topic, settings: settings);
+        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   /// Log a message at level [Level.error].
@@ -85,11 +85,11 @@ class LogkitLogger {
     String? message, {
     Object? error,
     StackTrace? stackTrace,
-    String? topic,
-    PrintLogSettings? settings,
+    String? tag,
+    SimpleLogSettings? settings,
   }) {
     logPrint(Level.error, message,
-        error: error, stackTrace: stackTrace, topic: topic, settings: settings);
+        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   void logPrint(
@@ -97,29 +97,24 @@ class LogkitLogger {
     String? message, {
     Object? error,
     StackTrace? stackTrace,
-    String? topic,
-    PrintLogSettings? settings,
+    String? tag,
+    SimpleLogSettings? settings,
   }) {
     message ??= '<null>';
     if (message.isEmpty) message = '<empty>';
-    settings ??= printLogSettings;
+    settings ??= simpleLogSettings;
 
-    final record = PrintLogRecord(
-      message,
+    final record = SimpleLogRecord(
+      message: message,
       level: level,
-      topic: topic ?? 'default',
+      tag: tag ?? '',
       settings: settings,
     );
-    records.value.add(record);
-    if (settings.printLog) {
-      _logger.log(level, record.format(),
-          time: record.time, error: error, stackTrace: stackTrace);
-    }
+    logTyped(record);
   }
 
-  // TODO
-  void logNetwork() {}
-
-  // TODO
-  void logRoute() {}
+  void logTyped(LogRecord record) {
+    records.value.add(record);
+    _logger.log(record.level, record.generatePrint(), time: record.time);
+  }
 }
