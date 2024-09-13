@@ -28,7 +28,7 @@ class LogkitLogger {
   }
 
   void attachOverlay(BuildContext context) {
-    LogkitOverlay.attach(context);
+    LogkitOverlay.attach(context: context, logger: this);
   }
 
   /// Log a message at level [Level.trace].

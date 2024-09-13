@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_logkit/logger.dart';
 import 'package:flutter_logkit/pages/log_page.dart';
 
 class DraggableEntryButton extends StatefulWidget {
-  const DraggableEntryButton({super.key});
+  const DraggableEntryButton({super.key, required this.logger});
+  final LogkitLogger logger;
 
   @override
   State<DraggableEntryButton> createState() => _DraggableEntryButtonState();
@@ -41,8 +43,8 @@ class _DraggableEntryButtonState extends State<DraggableEntryButton> {
             setState(() {
               isOpened = true;
             });
-            await Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const LogPage()));
+            await Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => LogPage(logger: widget.logger)));
             setState(() {
               isOpened = false;
             });
