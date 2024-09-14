@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:example/log.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/models/simple_log_settings.dart';
+import 'package:flutter_logkit/models/log_settings.dart';
 import 'package:flutter_logkit/models/http_log_record.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -37,26 +35,31 @@ class _MyHomePageState extends State<MyHomePage> {
             title: const Text('tap without print time'),
             onTap: () {
               logger.i('tap',
-                  tag: logTopic,
-                  settings: const SimpleLogSettings(printTime: false));
+                  tag: logTopic, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
             title: const Text('long message'),
             onTap: () {
               logger.i('long' * 99,
-                  tag: logTopic,
-                  settings: const SimpleLogSettings(printTime: false));
+                  tag: logTopic, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
-            title: const Text('catch error'),
+            title: const Text('Catch Exception'),
             onTap: () {
               try {
-                throw ArgumentError.notNull('fake');
-              } catch (e) {
-                logger.e(e.toString(), error: e);
+                throw ArgumentError.notNull('name1');
+              } catch (e, stack) {
+                logger.e(e.toString(),
+                    title: 'catch error', error: e, stackTrace: stack);
               }
+            },
+          ),
+          ListTile(
+            title: const Text('Unhandled Exception'),
+            onTap: () {
+              throw ArgumentError.notNull('name2');
             },
           ),
           ListTile(

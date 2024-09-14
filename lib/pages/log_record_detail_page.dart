@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/log_record.dart';
 import 'package:flutter_logkit/utils/clipboard.dart';
+import 'package:flutter_logkit/utils/pretty.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class RecordLogDetailPage extends StatelessWidget {
@@ -40,7 +41,13 @@ class RecordLogDetailPage extends StatelessWidget {
         ],
       ),
       body: Markdown(
-        data: record.message,
+        data: [
+          // TODO 如何保证副标题可以显示error，但要避免message和error重复
+          if (record.message != record.error.toString()) record.message,
+          if (record.error != null) 'Error'.mdH3 + record.error.toString(),
+          if (record.stackTrace != null)
+            'Stacktrace'.mdH3 + record.stackTrace.toString(),
+        ].join(),
         selectable: true,
         softLineBreak: true,
       ),

@@ -15,17 +15,46 @@ class _LogPageState extends State<LogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('LOG')),
-      body: ValueListenableBuilder(
-        valueListenable: widget.logger.records,
-        builder: (context, records, child) => ListView.separated(
-          itemCount: records.length,
+      body: Column(
+        children: [
+          _buildTypes(),
+          Expanded(child: _buildRecords()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTypes() {
+    return SizedBox(
+      height: 40,
+      child: ValueListenableBuilder(
+        valueListenable: widget.logger.types,
+        builder: (context, types, child) => ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: types.length,
           itemBuilder: (context, index) {
-            final record = records[records.length - 1 - index];
-            return LogRecordItem(record);
+            final type = types[index];
+            return OutlinedButton(
+              onPressed: () {},
+              child: Text(type),
+            );
           },
-          separatorBuilder: (BuildContext context, int index) => const Divider(
-            thickness: 0.5,
-          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRecords() {
+    return ValueListenableBuilder(
+      valueListenable: widget.logger.records,
+      builder: (context, records, child) => ListView.separated(
+        itemCount: records.length,
+        itemBuilder: (context, index) {
+          final record = records[records.length - 1 - index];
+          return LogRecordItem(record);
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(
+          thickness: 0.5,
         ),
       ),
     );

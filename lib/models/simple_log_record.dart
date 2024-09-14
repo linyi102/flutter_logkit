@@ -1,30 +1,29 @@
 import 'package:flutter_logkit/models/log_record.dart';
 import 'package:flutter_logkit/models/log_record_type.dart';
-import 'package:flutter_logkit/models/simple_log_settings.dart';
+import 'package:flutter_logkit/models/log_settings.dart';
 
 class SimpleLogRecord extends LogRecord {
   final String tag;
-  final SimpleLogSettings settings;
+  final LogSettings settings;
 
   SimpleLogRecord({
+    super.title = '',
     required super.message,
     required super.level,
     required this.tag,
     required this.settings,
-  }) : super(
-          type: LogRecordType.$default.key,
-          title: '',
-        );
-
-  @override
-  String toString() => 'SimpleLogRecord(message: $message, tag: $tag)';
+    super.error,
+    super.stackTrace,
+  }) : super(type: LogRecordType.$default.key);
 
   @override
   String generatePrint() {
     final texts = [
       if (settings.printTime) '[$formatedTime]',
-      if (settings.printTopic && tag.isNotEmpty) '[$tag]',
+      if (tag.isNotEmpty) '[$tag]',
       message,
+      if (error != null) '\n$error',
+      if (stackTrace != null) '\n$stackTrace',
     ];
     return texts.join(' ');
   }

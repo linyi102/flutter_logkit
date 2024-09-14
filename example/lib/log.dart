@@ -1,10 +1,9 @@
 import 'package:flutter_logkit/logger.dart';
-import 'package:flutter_logkit/models/simple_log_settings.dart';
+import 'package:flutter_logkit/models/log_settings.dart';
 
 final logger = LogkitLogger(
-  simpleLogSettings: const SimpleLogSettings(
+  logSettings: const LogSettings(
     printLog: true,
-    printTopic: true,
     printTime: true,
   ),
 );

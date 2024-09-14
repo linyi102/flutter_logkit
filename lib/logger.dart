@@ -1,19 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/log_record.dart';
 import 'package:flutter_logkit/models/simple_log_record.dart';
-import 'package:flutter_logkit/models/simple_log_settings.dart';
+import 'package:flutter_logkit/models/log_settings.dart';
 import 'package:flutter_logkit/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
 
 class LogkitLogger {
   late final Logger _logger;
   final _records = ValueNotifier(<LogRecord>[]);
+  final _types = ValueNotifier(<String>[]);
   ValueNotifier<List<LogRecord>> get records => _records;
-  final SimpleLogSettings simpleLogSettings;
+  ValueNotifier<List<String>> get types => _types;
+  final LogSettings logSettings;
 
   LogkitLogger({
-    this.simpleLogSettings = const SimpleLogSettings(
-        printLog: true, printTime: true, printTopic: true),
+    this.logSettings = const LogSettings(printLog: true, printTime: true),
   }) {
     _logger = Logger(
       printer: PrettyPrinter(
@@ -37,7 +39,7 @@ class LogkitLogger {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
-    SimpleLogSettings? settings,
+    LogSettings? settings,
   }) {
     logPrint(Level.trace, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
@@ -49,7 +51,7 @@ class LogkitLogger {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
-    SimpleLogSettings? settings,
+    LogSettings? settings,
   }) {
     logPrint(Level.debug, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
@@ -61,7 +63,7 @@ class LogkitLogger {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
-    SimpleLogSettings? settings,
+    LogSettings? settings,
   }) {
     logPrint(Level.info, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
@@ -74,7 +76,7 @@ class LogkitLogger {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
-    SimpleLogSettings? settings,
+    LogSettings? settings,
   }) {
     logPrint(Level.warning, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
@@ -83,38 +85,75 @@ class LogkitLogger {
   /// Log a message at level [Level.error].
   void e(
     String? message, {
+    String? title,
     Object? error,
     StackTrace? stackTrace,
     String? tag,
-    SimpleLogSettings? settings,
+    LogSettings? settings,
   }) {
     logPrint(Level.error, message,
-        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
+        title: title,
+        error: error,
+        stackTrace: stackTrace,
+        tag: tag,
+        settings: settings);
   }
 
   void logPrint(
     Level level,
     String? message, {
+    String? title,
     Object? error,
     StackTrace? stackTrace,
     String? tag,
-    SimpleLogSettings? settings,
+    LogSettings? settings,
   }) {
     message ??= '<null>';
     if (message.isEmpty) message = '<empty>';
-    settings ??= simpleLogSettings;
+    settings ??= logSettings;
 
     final record = SimpleLogRecord(
+      title: title ?? '',
       message: message,
       level: level,
       tag: tag ?? '',
       settings: settings,
+      error: error,
+      stackTrace: stackTrace,
     );
-    logTyped(record);
+    logTyped(record, settings: settings);
   }
 
-  void logTyped(LogRecord record) {
+  void logTyped(
+    LogRecord record, {
+    LogSettings? settings,
+  }) {
     records.value.add(record);
-    _logger.log(record.level, record.generatePrint(), time: record.time);
+    if ((settings ?? logSettings).printLog) {
+      _logger.log(record.level, record.generatePrint(), time: record.time);
+    }
+    if (!types.value.contains(record.type)) types.value.add(record.type);
+  }
+
+  void setupErrorCollector({bool printLog = true}) {
+    FlutterError.onError = (details) {
+      e(
+        details.exception.toString(),
+        title: '[FlutterError] Unhandled Exception',
+        error: details.exception,
+        stackTrace: details.stack,
+        settings: logSettings.copyWith(printLog: printLog),
+      );
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      e(
+        error.toString(),
+        title: '[PlatformDispatcher] Unhandled Exception',
+        error: error,
+        stackTrace: stack,
+        settings: logSettings.copyWith(printLog: printLog),
+      );
+      return true;
+    };
   }
 }

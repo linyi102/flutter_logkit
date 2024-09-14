@@ -1,7 +1,9 @@
 import 'package:example/home.dart';
+import 'package:example/log.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  logger.setupErrorCollector();
   runApp(const MyApp());
 }
 
