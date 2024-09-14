@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/log_record.dart';
-import 'package:flutter_logkit/utils/clipboard.dart';
+import 'package:flutter_logkit/pages/log_record_detail_page.dart';
 
 class LogRecordItem extends StatelessWidget {
   const LogRecordItem(this.record, {super.key});
@@ -34,35 +34,12 @@ class LogRecordItem extends StatelessWidget {
         ],
       ),
       onTap: () {
-        showDialog(
+        showModalBottomSheet(
           context: context,
-          builder: (context) => AlertDialog(
-            title: Text(record.level.name),
-            content: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(record.message),
-                  const SizedBox(height: 10),
-                  Text(
-                    record.formatedTime,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    ClipboardUtil.copy(
-                      context: context,
-                      text: record.message,
-                    );
-                    Navigator.pop(context);
-                  },
-                  child: const Text('复制'))
-            ],
-          ),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+          clipBehavior: Clip.antiAlias,
+          builder: (context) => RecordLogDetailPage(record: record),
         );
       },
     );

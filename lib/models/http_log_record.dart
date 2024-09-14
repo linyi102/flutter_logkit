@@ -15,9 +15,15 @@ class HttpRequestLogRecord extends LogRecord {
     Object? headers,
     Object? body,
   }) {
-    String msg = '[$method] $url';
-    if (headers != null) msg += '\nHeaders: ${headers.prettyJson}';
-    if (body != null) msg += '\nBody: ${body.prettyJson}';
+    String msg = '[${method.toUpperCase()}] $url';
+    if (body != null) {
+      msg += 'Body'.mdH3;
+      msg += body.prettyJson.mdCodeblock;
+    }
+    if (headers != null) {
+      msg += 'Headers'.mdH3;
+      msg += headers.prettyJson.mdCodeblock;
+    }
 
     return HttpRequestLogRecord._(
       title: 'request',
@@ -45,11 +51,17 @@ class HttpResponseLogRecord extends LogRecord {
     Object? headers,
     Object? body,
   }) {
-    String msg = '[$method] $url';
+    String msg = '[${method.toUpperCase()}] $url';
     if (statusCode != null) msg += '\nStatusCode: $statusCode';
     if (statusMessage != null) msg += '\nStatusMessage: $statusMessage';
-    if (headers != null) msg += '\nHeaders: ${headers.prettyJson}';
-    if (body != null) msg += '\nBody: ${body.prettyJson}';
+    if (body != null) {
+      msg += 'Body'.mdH3;
+      msg += body.prettyJson.mdCodeblock;
+    }
+    if (headers != null) {
+      msg += 'Headers'.mdH3;
+      msg += headers.prettyJson.mdCodeblock;
+    }
 
     return HttpResponseLogRecord._(
       title: 'response',
