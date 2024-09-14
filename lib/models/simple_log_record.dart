@@ -1,4 +1,5 @@
 import 'package:flutter_logkit/models/log_record.dart';
+import 'package:flutter_logkit/models/log_record_type.dart';
 import 'package:flutter_logkit/models/simple_log_settings.dart';
 
 class SimpleLogRecord extends LogRecord {
@@ -11,7 +12,7 @@ class SimpleLogRecord extends LogRecord {
     required this.tag,
     required this.settings,
   }) : super(
-          type: 'default',
+          type: LogRecordType.$default.key,
           title: '',
         );
 

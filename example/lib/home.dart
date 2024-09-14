@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:example/log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/models/simple_log_settings.dart';
-import 'package:flutter_logkit/models/network_log_record.dart';
+import 'package:flutter_logkit/models/http_log_record.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -61,18 +62,28 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: const Text('network'),
             onTap: () async {
-              final httpClient = HttpClient();
-              final request =
-                  await httpClient.getUrl(Uri.parse('https://www.baidu.com'));
-              request.headers.add(
-                "user-agent",
-                "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
-              );
-              logger.logTyped(NetworkRequestLogRecord.fromHttpRequest(request));
-
-              final response = await request.close();
-              logger.logTyped(
-                  NetworkResponseLogRecord.fromHttpResponse(response));
+              final dio = Dio();
+              final options = RequestOptions(
+                  path: 'https://www.baidu.com',
+                  method: 'get',
+                  headers: {
+                    'platform': 'mac',
+                  });
+              logger.logTyped(HttpRequestLogRecord.generate(
+                method: options.method,
+                url: options.uri.toString(),
+                headers: options.headers,
+                body: options.data,
+              ));
+              final resp = await dio.fetch(options);
+              logger.logTyped(HttpResponseLogRecord.generate(
+                method: resp.requestOptions.method,
+                url: resp.requestOptions.uri.toString(),
+                statusCode: resp.statusCode,
+                statusMessage: resp.statusMessage,
+                headers: resp.headers,
+                body: resp.data,
+              ));
             },
           ),
         ],
