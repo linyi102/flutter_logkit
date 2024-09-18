@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
 import 'package:flutter_logkit/models/log_level.dart';
+import 'package:flutter_logkit/models/log_record_filter.dart';
+import 'package:flutter_logkit/models/log_record_filter.dart';
 import 'package:flutter_logkit/widgets/log_filter_item.dart';
 import 'package:flutter_logkit/widgets/log_record_item.dart';
 
@@ -46,8 +48,11 @@ class _LogPageState extends State<LogPage> {
                 selectedOption: filter.level,
                 onSelected: (v) {
                   if (v == null) {
-                    widget.logger.filter.value =
-                        (filter..level = null).copyWith();
+                    widget.logger.filter.value = LogRecordFilter(
+                      level: null,
+                      type: filter.type,
+                      tag: filter.tag,
+                    );
                   } else {
                     widget.logger.filter.value = filter.copyWith(level: v);
                   }
@@ -60,8 +65,11 @@ class _LogPageState extends State<LogPage> {
                 selectedOption: filter.type,
                 onSelected: (v) {
                   if (v == null) {
-                    widget.logger.filter.value =
-                        (filter..type = null).copyWith();
+                    widget.logger.filter.value = LogRecordFilter(
+                      level: filter.level,
+                      type: null,
+                      tag: filter.tag,
+                    );
                   } else {
                     widget.logger.filter.value = filter.copyWith(type: v);
                   }
@@ -75,8 +83,11 @@ class _LogPageState extends State<LogPage> {
                 onSelected: (v) {
                   // TODO 选中后，关闭选择面板，再次打开取消选中时不会触发buttonText重绘
                   if (v == null) {
-                    widget.logger.filter.value =
-                        (filter..tag = null).copyWith();
+                    widget.logger.filter.value = LogRecordFilter(
+                      level: filter.level,
+                      type: filter.type,
+                      tag: null,
+                    );
                   } else {
                     widget.logger.filter.value = filter.copyWith(tag: v);
                   }
