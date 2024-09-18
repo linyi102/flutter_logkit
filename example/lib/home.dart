@@ -20,10 +20,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      logger.i('attach logkit overlay');
-      logger.attachOverlay(context);
-    });
+    logger.i('attach logkit overlay');
+    logger.attachOverlay(context);
   }
 
   @override

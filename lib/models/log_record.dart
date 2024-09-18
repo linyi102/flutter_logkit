@@ -23,5 +23,5 @@ abstract class LogRecord {
     return DateFormat('yy-MM-dd HH:mm:ss').format(time);
   }
 
-  String generatePrint();
+  String generatePrint() => message;
 }

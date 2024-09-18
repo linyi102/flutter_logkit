@@ -13,7 +13,7 @@ class LogkitLogger {
   final _records = ValueNotifier(<LogRecord>[]);
   final _types = ValueNotifier(<String>[]);
   final _tags = ValueNotifier(<String>[]);
-  final _filter = ValueNotifier(LogRecordFilter());
+  final _filter = ValueNotifier(const LogRecordFilter());
   ValueNotifier<List<LogRecord>> get records => _records;
   ValueNotifier<List<String>> get types => _types;
   ValueNotifier<List<String>> get tags => _tags;
