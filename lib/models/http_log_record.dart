@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 
 class HttpRequestLogRecord extends LogRecord {
   HttpRequestLogRecord._({
-    required super.title,
     required super.message,
   }) : super(type: LogRecordType.httpRequest.key, level: Level.info);
 
@@ -26,20 +25,18 @@ class HttpRequestLogRecord extends LogRecord {
     }
 
     return HttpRequestLogRecord._(
-      title: 'request',
       message: msg,
     );
   }
 
   @override
   String generatePrint() {
-    return '$title\n$message';
+    return message;
   }
 }
 
 class HttpResponseLogRecord extends LogRecord {
   HttpResponseLogRecord._({
-    required super.title,
     required super.message,
   }) : super(type: LogRecordType.httpResponse.key, level: Level.info);
 
@@ -64,13 +61,12 @@ class HttpResponseLogRecord extends LogRecord {
     }
 
     return HttpResponseLogRecord._(
-      title: 'response',
       message: msg,
     );
   }
 
   @override
   String generatePrint() {
-    return '$title\n$message';
+    return message;
   }
 }

@@ -18,16 +18,8 @@ class RecordLogDetailPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (record.title.isNotEmpty) Text(record.title),
-            Text(
-              '${record.level.name} | ${record.formatedTime}',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
+        title: Text(
+          '${record.level.name.toUpperCase()} | ${record.type}',
         ),
         actions: [
           IconButton(

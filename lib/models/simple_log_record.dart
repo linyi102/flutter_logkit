@@ -7,7 +7,6 @@ class SimpleLogRecord extends LogRecord {
   final LogSettings settings;
 
   SimpleLogRecord({
-    super.title = '',
     required super.message,
     required super.level,
     required this.tag,

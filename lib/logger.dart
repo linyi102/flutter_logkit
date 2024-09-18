@@ -113,7 +113,6 @@ class LogkitLogger {
     settings ??= logSettings;
 
     final record = SimpleLogRecord(
-      title: title ?? '',
       message: message,
       level: level,
       tag: tag ?? '',

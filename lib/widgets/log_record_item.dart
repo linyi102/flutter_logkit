@@ -8,30 +8,27 @@ class LogRecordItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        record.title.isNotEmpty ? record.title : record.message,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (record.title.isNotEmpty) Text(record.message, maxLines: 3),
-          Row(
-            children: [
-              Text(
-                record.level.name,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                record.formatedTime,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          )
-        ],
+    return InkWell(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${record.level.name.toUpperCase()} | ${record.type}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Text(
+              record.formatedTime,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Text(
+              record.message,
+              maxLines: 3,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
       ),
       onTap: () {
         showModalBottomSheet(
