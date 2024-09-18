@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final logTopic = 'Home';
+  final logTag = 'Home';
 
   @override
   void initState() {
@@ -35,14 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
             title: const Text('tap without print time'),
             onTap: () {
               logger.i('tap',
-                  tag: logTopic, settings: const LogSettings(printTime: false));
+                  tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
             title: const Text('long message'),
             onTap: () {
               logger.i('long' * 99,
-                  tag: logTopic, settings: const LogSettings(printTime: false));
+                  tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
@@ -51,8 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
               try {
                 throw ArgumentError.notNull('name1');
               } catch (e, stack) {
-                logger.e(e.toString(),
-                    title: 'catch error', error: e, stackTrace: stack);
+                logger.e('manual catch error', error: e, stackTrace: stack);
               }
             },
           ),
@@ -72,7 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   headers: {
                     'platform': 'mac',
                   });
+              const logTag = 'DioFakeInterceptor';
               logger.logTyped(HttpRequestLogRecord.generate(
+                tag: logTag,
                 method: options.method,
                 url: options.uri.toString(),
                 headers: options.headers,
@@ -80,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ));
               final resp = await dio.fetch(options);
               logger.logTyped(HttpResponseLogRecord.generate(
+                tag: logTag,
                 method: resp.requestOptions.method,
                 url: resp.requestOptions.uri.toString(),
                 statusCode: resp.statusCode,

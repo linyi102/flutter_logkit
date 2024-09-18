@@ -16,8 +16,6 @@ class RecordLogDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
         title: Text(
           '${record.level.name.toUpperCase()} | ${record.type}',
         ),
@@ -26,22 +24,35 @@ class RecordLogDetailPage extends StatelessWidget {
             onPressed: () => _copyMessage(context),
             icon: const Icon(Icons.copy_all),
           ),
-          IconButton(
-            onPressed: Navigator.of(context).pop,
-            icon: const Icon(Icons.close),
-          )
         ],
       ),
-      body: Markdown(
-        data: [
-          // TODO 如何保证副标题可以显示error，但要避免message和error重复
-          if (record.message != record.error.toString()) record.message,
-          if (record.error != null) 'Error'.mdH3 + record.error.toString(),
-          if (record.stackTrace != null)
-            'Stacktrace'.mdH3 + record.stackTrace.toString(),
-        ].join(),
-        selectable: true,
-        softLineBreak: true,
+      body: Column(
+        children: [
+          Expanded(
+            child: Markdown(
+              data: [
+                record.message,
+                if (record.error != null)
+                  'Error'.mdH3 + record.error.toString(),
+                if (record.stackTrace != null)
+                  'Stacktrace'.mdH3 + record.stackTrace.toString(),
+              ].join(),
+              selectable: true,
+              softLineBreak: true,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'at ${record.formatedTime}${record.tag.isNotEmpty ? ' in ${record.tag}' : ''}',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).hintColor,
+                    height: 1.5,
+                  ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 enum LogRecordType {
   $default('default'),
-  httpRequest('httpRequest'),
-  httpResponse('httpResponse'),
+  httpRequest('http-request'),
+  httpResponse('http-response'),
   route('route');
 
   final String key;

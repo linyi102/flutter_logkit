@@ -85,35 +85,27 @@ class LogkitLogger {
   /// Log a message at level [Level.error].
   void e(
     String? message, {
-    String? title,
     Object? error,
     StackTrace? stackTrace,
     String? tag,
     LogSettings? settings,
   }) {
     logPrint(Level.error, message,
-        title: title,
-        error: error,
-        stackTrace: stackTrace,
-        tag: tag,
-        settings: settings);
+        error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   void logPrint(
     Level level,
     String? message, {
-    String? title,
     Object? error,
     StackTrace? stackTrace,
     String? tag,
     LogSettings? settings,
   }) {
-    message ??= '<null>';
-    if (message.isEmpty) message = '<empty>';
     settings ??= logSettings;
 
     final record = SimpleLogRecord(
-      message: message,
+      message: message ?? '',
       level: level,
       tag: tag ?? '',
       settings: settings,
@@ -137,20 +129,20 @@ class LogkitLogger {
   void setupErrorCollector({bool printLog = true}) {
     FlutterError.onError = (details) {
       e(
-        details.exception.toString(),
-        title: '[FlutterError] Unhandled Exception',
+        'Unhandled Exception',
         error: details.exception,
         stackTrace: details.stack,
         settings: logSettings.copyWith(printLog: printLog),
+        tag: 'FlutterError',
       );
     };
     PlatformDispatcher.instance.onError = (error, stack) {
       e(
-        error.toString(),
-        title: '[PlatformDispatcher] Unhandled Exception',
+        'Unhandled Exception',
         error: error,
         stackTrace: stack,
         settings: logSettings.copyWith(printLog: printLog),
+        tag: 'PlatformDispatcher',
       );
       return true;
     };

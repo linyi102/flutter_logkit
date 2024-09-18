@@ -6,9 +6,11 @@ import 'package:logger/logger.dart';
 class HttpRequestLogRecord extends LogRecord {
   HttpRequestLogRecord._({
     required super.message,
+    required super.tag,
   }) : super(type: LogRecordType.httpRequest.key, level: Level.info);
 
   factory HttpRequestLogRecord.generate({
+    String tag = '',
     required String method,
     required String url,
     Object? headers,
@@ -26,6 +28,7 @@ class HttpRequestLogRecord extends LogRecord {
 
     return HttpRequestLogRecord._(
       message: msg,
+      tag: tag,
     );
   }
 
@@ -38,9 +41,11 @@ class HttpRequestLogRecord extends LogRecord {
 class HttpResponseLogRecord extends LogRecord {
   HttpResponseLogRecord._({
     required super.message,
+    required super.tag,
   }) : super(type: LogRecordType.httpResponse.key, level: Level.info);
 
   factory HttpResponseLogRecord.generate({
+    String tag = '',
     required String method,
     required String url,
     int? statusCode,
@@ -62,6 +67,7 @@ class HttpResponseLogRecord extends LogRecord {
 
     return HttpResponseLogRecord._(
       message: msg,
+      tag: tag,
     );
   }
 
