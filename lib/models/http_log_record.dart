@@ -76,3 +76,45 @@ class HttpResponseLogRecord extends LogRecord {
     return message;
   }
 }
+
+class HttpErrorLogRecord extends LogRecord {
+  HttpErrorLogRecord._({
+    required super.message,
+    required super.tag,
+    super.error,
+  }) : super(type: LogRecordType.httpError.key, level: LogLevel.error);
+
+  factory HttpErrorLogRecord.generate({
+    String tag = '',
+    required String method,
+    required String url,
+    int? statusCode,
+    String? statusMessage,
+    Object? headers,
+    Object? body,
+    Object? error,
+  }) {
+    String msg = '[${method.toUpperCase()}] $url';
+    if (statusCode != null) msg += '\nStatusCode: $statusCode';
+    if (statusMessage != null) msg += '\nStatusMessage: $statusMessage';
+    if (body != null) {
+      msg += 'Body'.mdH3;
+      msg += body.prettyJson.mdCodeblock;
+    }
+    if (headers != null) {
+      msg += 'Headers'.mdH3;
+      msg += headers.prettyJson.mdCodeblock;
+    }
+
+    return HttpErrorLogRecord._(
+      message: msg,
+      tag: tag,
+      error: error,
+    );
+  }
+
+  @override
+  String generatePrint() {
+    return message;
+  }
+}
