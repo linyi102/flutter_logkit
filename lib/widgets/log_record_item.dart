@@ -48,6 +48,7 @@ class LogRecordItem extends StatelessWidget {
       ),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
+            settings: const RouteSettings(name: 'log detail'),
             builder: (context) => RecordLogDetailPage(record: record)));
       },
     );

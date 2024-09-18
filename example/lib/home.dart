@@ -15,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final logTag = 'Home';
-  final dio = Dio()..interceptors.add(DioInterceptor(logger: logger));
+  final dio = Dio()..interceptors.add(DioLogInterceptor(logger));
 
   @override
   void initState() {
