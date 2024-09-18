@@ -1,4 +1,5 @@
 import 'package:flutter_logkit/models/log_level.dart';
+import 'package:intl/intl.dart';
 
 abstract class LogRecord {
   final String type;
@@ -18,7 +19,9 @@ abstract class LogRecord {
     this.stackTrace,
   }) : time = DateTime.now();
 
-  String get formatedTime => time.toString();
+  String get formatedTime {
+    return DateFormat('yy-MM-dd HH:mm:ss').format(time);
+  }
 
   String generatePrint();
 }
