@@ -1,13 +1,13 @@
+import 'package:flutter_logkit/models/log_level.dart';
 import 'package:flutter_logkit/models/log_record.dart';
 import 'package:flutter_logkit/models/log_record_type.dart';
 import 'package:flutter_logkit/utils/pretty.dart';
-import 'package:logger/logger.dart';
 
 class HttpRequestLogRecord extends LogRecord {
   HttpRequestLogRecord._({
     required super.message,
     required super.tag,
-  }) : super(type: LogRecordType.httpRequest.key, level: Level.info);
+  }) : super(type: LogRecordType.httpRequest.key, level: LogLevel.info);
 
   factory HttpRequestLogRecord.generate({
     String tag = '',
@@ -42,7 +42,7 @@ class HttpResponseLogRecord extends LogRecord {
   HttpResponseLogRecord._({
     required super.message,
     required super.tag,
-  }) : super(type: LogRecordType.httpResponse.key, level: Level.info);
+  }) : super(type: LogRecordType.httpResponse.key, level: LogLevel.info);
 
   factory HttpResponseLogRecord.generate({
     String tag = '',

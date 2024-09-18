@@ -14,9 +14,21 @@ class LogRecordItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${record.level.name.toUpperCase()} | ${record.type}',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Row(
+              children: [
+                Container(
+                  height: 8,
+                  width: 8,
+                  decoration: BoxDecoration(
+                      color: record.level.color, shape: BoxShape.circle),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                    child: Text(
+                  '${record.level.name.toUpperCase()} | ${record.type}',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ))
+              ],
             ),
             const SizedBox(height: 5),
             Text(
@@ -37,13 +49,6 @@ class LogRecordItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => RecordLogDetailPage(record: record)));
-        // showModalBottomSheet(
-        //   context: context,
-        //   shape: const RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
-        //   clipBehavior: Clip.antiAlias,
-        //   builder: (context) => RecordLogDetailPage(record: record),
-        // );
       },
     );
   }

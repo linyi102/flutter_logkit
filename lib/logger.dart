@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_logkit/models/log_level.dart';
 import 'package:flutter_logkit/models/log_record.dart';
 import 'package:flutter_logkit/models/simple_log_record.dart';
 import 'package:flutter_logkit/models/log_settings.dart';
@@ -41,7 +42,7 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(Level.trace, message,
+    logPrint(LogLevel.trace, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
@@ -53,7 +54,7 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(Level.debug, message,
+    logPrint(LogLevel.debug, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
@@ -65,7 +66,7 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(Level.info, message,
+    logPrint(LogLevel.info, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
@@ -78,7 +79,7 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(Level.warning, message,
+    logPrint(LogLevel.warning, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
@@ -90,12 +91,12 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(Level.error, message,
+    logPrint(LogLevel.error, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
   void logPrint(
-    Level level,
+    LogLevel level,
     String? message, {
     Object? error,
     StackTrace? stackTrace,
@@ -121,7 +122,8 @@ class LogkitLogger {
   }) {
     records.value.add(record);
     if ((settings ?? logSettings).printLog) {
-      _logger.log(record.level, record.generatePrint(), time: record.time);
+      _logger.log(record.level.toLoggerLevel(), record.generatePrint(),
+          time: record.time);
     }
     if (!types.value.contains(record.type)) types.value.add(record.type);
   }

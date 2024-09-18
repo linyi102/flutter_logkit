@@ -1,11 +1,11 @@
-import 'package:logger/logger.dart';
+import 'package:flutter_logkit/models/log_level.dart';
 
 abstract class LogRecord {
   final String type;
   final String tag;
   final String message;
   final DateTime time;
-  final Level level;
+  final LogLevel level;
   final Object? error;
   final StackTrace? stackTrace;
 
