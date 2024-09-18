@@ -46,6 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
+            title: const Text('for log'),
+            onTap: () async {
+              for (int i = 0; i < 5; i++) {
+                await Future.delayed(const Duration(seconds: 1));
+                logger.i('for $i', tag: logTag);
+              }
+            },
+          ),
+          ListTile(
             title: const Text('Catch Exception'),
             onTap: () {
               try {

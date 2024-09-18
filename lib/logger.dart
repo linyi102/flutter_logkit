@@ -120,7 +120,7 @@ class LogkitLogger {
     LogRecord record, {
     LogSettings? settings,
   }) {
-    records.value.add(record);
+    records.value = [...records.value, record];
     if ((settings ?? logSettings).printLog) {
       _logger.log(record.level.toLoggerLevel(), record.generatePrint(),
           time: record.time);
