@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:example/log.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/models/log_settings.dart';
-import 'package:flutter_logkit/models/http_log_record.dart';
+import 'package:flutter_logkit/logkit.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
