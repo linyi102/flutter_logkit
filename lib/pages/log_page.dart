@@ -45,12 +45,8 @@ class _LogPageState extends State<LogPage> {
                 genLabel: (option) => option.name.toUpperCase(),
                 selectedOption: filter.level,
                 onSelected: (v) {
-                  if (v == null) {
-                    widget.logger.filter.value =
-                        (filter..level = null).copyWith();
-                  } else {
-                    widget.logger.filter.value = filter.copyWith(level: v);
-                  }
+                  widget.logger.filter.value =
+                      filter.copyWithNullable(level: () => v);
                 },
               ),
               LogFilterItem(
@@ -59,12 +55,8 @@ class _LogPageState extends State<LogPage> {
                 fetchOptions: () => widget.logger.types.value,
                 selectedOption: filter.type,
                 onSelected: (v) {
-                  if (v == null) {
-                    widget.logger.filter.value =
-                        (filter..type = null).copyWith();
-                  } else {
-                    widget.logger.filter.value = filter.copyWith(type: v);
-                  }
+                  widget.logger.filter.value =
+                      filter.copyWithNullable(type: () => v);
                 },
               ),
               LogFilterItem(
@@ -73,13 +65,8 @@ class _LogPageState extends State<LogPage> {
                 fetchOptions: () => widget.logger.tags.value,
                 selectedOption: filter.tag,
                 onSelected: (v) {
-                  // TODO 选中后，关闭选择面板，再次打开取消选中时不会触发buttonText重绘
-                  if (v == null) {
-                    widget.logger.filter.value =
-                        (filter..tag = null).copyWith();
-                  } else {
-                    widget.logger.filter.value = filter.copyWith(tag: v);
-                  }
+                  widget.logger.filter.value =
+                      filter.copyWithNullable(tag: () => v);
                 },
               ),
             ],

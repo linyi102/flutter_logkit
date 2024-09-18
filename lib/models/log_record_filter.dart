@@ -1,11 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_logkit/models/log_level.dart';
 
+@immutable
 class LogRecordFilter {
-  LogLevel? level;
-  String? type;
-  String? tag;
+  final LogLevel? level;
+  final String? type;
+  final String? tag;
 
-  LogRecordFilter({
+  const LogRecordFilter({
     this.level,
     this.type,
     this.tag,
@@ -20,6 +22,18 @@ class LogRecordFilter {
       level: level ?? this.level,
       type: type ?? this.type,
       tag: tag ?? this.tag,
+    );
+  }
+
+  LogRecordFilter copyWithNullable({
+    ValueGetter<LogLevel?>? level,
+    ValueGetter<String?>? type,
+    ValueGetter<String?>? tag,
+  }) {
+    return LogRecordFilter(
+      level: level != null ? level() : this.level,
+      type: type != null ? type() : this.type,
+      tag: tag != null ? tag() : this.tag,
     );
   }
 
