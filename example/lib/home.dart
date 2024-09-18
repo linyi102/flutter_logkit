@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:example/http/dio_interceptor.dart';
+import 'package:example/http/dio_log_interceptor.dart';
 import 'package:example/log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';

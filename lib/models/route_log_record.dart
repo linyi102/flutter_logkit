@@ -4,14 +4,16 @@ import 'package:flutter_logkit/utils/pretty.dart';
 
 class RouteLogRecord extends LogRecord {
   RouteLogRecord({
+    required super.tag,
     required super.message,
-  }) : super(tag: '', type: LogRecordType.route.key, level: LogLevel.info);
+  }) : super(type: LogRecordType.route.key, level: LogLevel.info);
 
   factory RouteLogRecord.fromRoute(
     String action,
     Route<dynamic>? route,
-    Route<dynamic>? oldRoute,
-  ) {
+    Route<dynamic>? oldRoute, {
+    String tag = '',
+  }) {
     String msg = action;
     if (route != null) msg += ' ${route.settings.name ?? '<unknown>'}';
     if (oldRoute != null) {
@@ -21,6 +23,6 @@ class RouteLogRecord extends LogRecord {
       msg += 'Arguments'.mdH3;
       msg += route?.settings.arguments?.toString() ?? '';
     }
-    return RouteLogRecord(message: msg);
+    return RouteLogRecord(message: msg, tag: tag);
   }
 }
