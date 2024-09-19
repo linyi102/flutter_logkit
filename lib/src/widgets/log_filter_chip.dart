@@ -24,11 +24,14 @@ class LogFilterChip<T> extends StatelessWidget {
               ? MaterialStatePropertyAll(
                   Theme.of(context).primaryColor.withOpacity(0.1))
               : null,
+          visualDensity: const VisualDensity(vertical: -2),
+          padding: const MaterialStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: 16)),
         ),
         child: Row(
           children: [
             Text(title),
-            if (filtered) _buildClearButton(context)
+            if (filtered) _buildClearButton(context),
           ],
         ),
       ),
