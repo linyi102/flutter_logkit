@@ -1,34 +1,34 @@
 import 'dart:convert';
 
 class LogSettings {
-  final bool printLog;
+  final bool printToConsole;
   final bool printTime;
 
   const LogSettings({
-    this.printLog = true,
+    this.printToConsole = true,
     this.printTime = true,
   });
 
   LogSettings copyWith({
-    bool? printLog,
+    bool? printToConsole,
     bool? printTime,
   }) {
     return LogSettings(
-      printLog: printLog ?? this.printLog,
+      printToConsole: printToConsole ?? this.printToConsole,
       printTime: printTime ?? this.printTime,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'printLog': printLog,
+      'printToConsole': printToConsole,
       'printTime': printTime,
     };
   }
 
   factory LogSettings.fromMap(Map<String, dynamic> map) {
     return LogSettings(
-      printLog: map['printLog'] as bool,
+      printToConsole: map['printToConsole'] as bool,
       printTime: map['printTime'] as bool,
     );
   }
@@ -40,15 +40,16 @@ class LogSettings {
 
   @override
   String toString() =>
-      'LogSettings(printLog: $printLog, printTime: $printTime)';
+      'LogSettings(printToConsole: $printToConsole, printTime: $printTime)';
 
   @override
   bool operator ==(covariant LogSettings other) {
     if (identical(this, other)) return true;
 
-    return other.printLog == printLog && other.printTime == printTime;
+    return other.printToConsole == printToConsole &&
+        other.printTime == printTime;
   }
 
   @override
-  int get hashCode => printLog.hashCode ^ printTime.hashCode;
+  int get hashCode => printToConsole.hashCode ^ printTime.hashCode;
 }

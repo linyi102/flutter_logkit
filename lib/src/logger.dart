@@ -21,7 +21,7 @@ class LogkitLogger {
   final LogSettings logSettings;
 
   LogkitLogger({
-    this.logSettings = const LogSettings(printLog: true, printTime: true),
+    this.logSettings = const LogSettings(printToConsole: true, printTime: true),
   }) {
     _logger = Logger(
       printer: PrettyPrinter(
@@ -127,8 +127,8 @@ class LogkitLogger {
     LogSettings? settings,
   }) {
     records.value = [...records.value, record];
-    if ((settings ?? logSettings).printLog) {
-      _logger.log(record.level.toLoggerLevel(), record.generatePrint(),
+    if ((settings ?? logSettings).printToConsole) {
+      _logger.log(record.level.toLoggerLevel(), record.consoleMessage,
           time: record.time);
     }
     if (!types.value.contains(record.type)) {
@@ -139,13 +139,13 @@ class LogkitLogger {
     }
   }
 
-  void setupErrorCollector({bool printLog = true}) {
+  void setupErrorCollector({bool printToConsole = true}) {
     FlutterError.onError = (details) {
       error(
         'Unhandled Exception',
         error: details.exception,
         stackTrace: details.stack,
-        settings: logSettings.copyWith(printLog: printLog),
+        settings: logSettings.copyWith(printToConsole: printToConsole),
         tag: 'FlutterError',
       );
     };
@@ -154,7 +154,7 @@ class LogkitLogger {
         'Unhandled Exception',
         error: err,
         stackTrace: stack,
-        settings: logSettings.copyWith(printLog: printLog),
+        settings: logSettings.copyWith(printToConsole: printToConsole),
         tag: 'PlatformDispatcher',
       );
       return true;

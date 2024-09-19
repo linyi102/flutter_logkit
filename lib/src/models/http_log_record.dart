@@ -31,11 +31,6 @@ class HttpRequestLogRecord extends LogRecord {
       tag: tag,
     );
   }
-
-  @override
-  String generatePrint() {
-    return message;
-  }
 }
 
 class HttpResponseLogRecord extends LogRecord {
@@ -69,11 +64,6 @@ class HttpResponseLogRecord extends LogRecord {
       message: msg,
       tag: tag,
     );
-  }
-
-  @override
-  String generatePrint() {
-    return message;
   }
 }
 
@@ -111,10 +101,5 @@ class HttpErrorLogRecord extends LogRecord {
       tag: tag,
       error: error,
     );
-  }
-
-  @override
-  String generatePrint() {
-    return message;
   }
 }
