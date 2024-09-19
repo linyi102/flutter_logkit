@@ -37,7 +37,8 @@ class _FilterSearchViewState extends State<FilterSearchView> {
         TextButton(
           onPressed: () {
             Navigator.pop(context);
-            widget.onSubmit(controller.text.trim());
+            final text = controller.text.trim();
+            widget.onSubmit(text.isEmpty ? null : text);
           },
           child: const Text('确定'),
         ),
