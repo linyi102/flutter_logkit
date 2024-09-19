@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_logkit/src/models/log_level.dart';
+import 'package:flutter_logkit/src/models/models.dart';
 
 @immutable
 class LogRecordFilter {
@@ -12,6 +12,15 @@ class LogRecordFilter {
     this.type,
     this.tag,
   });
+
+  bool isMatch(LogRecord record) {
+    if (level == null && type == null && tag == null) {
+      return true;
+    }
+    return (level == null ? true : record.level == level) &&
+        (type == null ? true : record.type == type) &&
+        (tag == null ? true : record.tag == tag);
+  }
 
   LogRecordFilter copyWith({
     LogLevel? level,

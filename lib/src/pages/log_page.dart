@@ -82,18 +82,7 @@ class _LogPageState extends State<LogPage> {
         widget.logger.filter,
       ]),
       builder: (context, child) {
-        final filteredRecords = widget.logger.records.value.where((record) {
-          final filter = widget.logger.filter.value;
-          if (filter.level == null &&
-              filter.type == null &&
-              filter.tag == null) {
-            return true;
-          }
-          return (filter.level == null ? true : record.level == filter.level) &&
-              (filter.type == null ? true : record.type == filter.type) &&
-              (filter.tag == null ? true : record.tag == filter.tag);
-        }).toList();
-
+        final filteredRecords = widget.logger.filterRecords();
         return ListView.separated(
           itemCount: filteredRecords.length,
           itemBuilder: (context, index) {

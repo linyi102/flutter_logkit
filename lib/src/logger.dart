@@ -39,6 +39,12 @@ class LogkitLogger {
     LogkitOverlay.attach(context: context, logger: this);
   }
 
+  List<LogRecord> filterRecords() {
+    return records.value
+        .where((record) => filter.value.isMatch(record))
+        .toList();
+  }
+
   void trace(
     String? message, {
     Object? error,
