@@ -6,12 +6,14 @@ class FilterOptionsView<T> extends StatefulWidget {
     required this.title,
     required this.options,
     this.labelGenerator,
+    this.trailingGenerator,
     this.selectedOption,
     required this.onSelected,
   });
   final String title;
   final List<T> options;
   final String Function(T option)? labelGenerator;
+  final Widget Function(T option)? trailingGenerator;
   final T? selectedOption;
   final ValueChanged<T?> onSelected;
 
@@ -32,7 +34,8 @@ class _FilterOptionsViewState<T> extends State<FilterOptionsView<T>> {
         itemBuilder: (context, index) {
           final option = widget.options[index];
           return RadioListTile<T>(
-            title: Text(widget.labelGenerator?.call(option) ?? option.toString()),
+            title:
+                Text(widget.labelGenerator?.call(option) ?? option.toString()),
             toggleable: true,
             onChanged: (v) {
               setState(() {
@@ -42,6 +45,8 @@ class _FilterOptionsViewState<T> extends State<FilterOptionsView<T>> {
             },
             groupValue: selectedOption,
             value: option,
+            controlAffinity: ListTileControlAffinity.leading,
+            secondary: widget.trailingGenerator?.call(option),
           );
         },
       ),

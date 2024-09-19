@@ -51,6 +51,8 @@ class _LogPageState extends State<LogPage> {
                       options: LogLevel.values,
                       selectedOption: filter.level,
                       labelGenerator: (option) => option.name.toUpperCase(),
+                      trailingGenerator: (option) =>
+                          _buildFilteredNumber((e) => e.level == option),
                       onSelected: (v) {
                         widget.logger.filter.value =
                             filter.copyWithNullable(level: () => v);
@@ -73,6 +75,8 @@ class _LogPageState extends State<LogPage> {
                       title: 'Type',
                       options: widget.logger.types.value,
                       selectedOption: filter.type,
+                      trailingGenerator: (option) =>
+                          _buildFilteredNumber((e) => e.type == option),
                       onSelected: (v) {
                         widget.logger.filter.value =
                             filter.copyWithNullable(type: () => v);
@@ -95,6 +99,8 @@ class _LogPageState extends State<LogPage> {
                       title: 'Tag',
                       options: widget.logger.tags.value,
                       selectedOption: filter.tag,
+                      trailingGenerator: (option) =>
+                          _buildFilteredNumber((e) => e.tag == option),
                       onSelected: (v) {
                         widget.logger.filter.value =
                             filter.copyWithNullable(tag: () => v);
@@ -129,6 +135,10 @@ class _LogPageState extends State<LogPage> {
         ),
       ),
     );
+  }
+
+  Widget _buildFilteredNumber(bool Function(LogRecord) test) {
+    return Text(widget.logger.records.value.where(test).length.toString());
   }
 
   Widget _buildRecords() {
