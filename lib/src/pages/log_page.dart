@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
+import 'package:flutter_logkit/src/utils/utils.dart';
 import 'package:flutter_logkit/src/widgets/widgets.dart';
 
 class LogPage extends StatefulWidget {
@@ -43,12 +44,8 @@ class _LogPageState extends State<LogPage> {
                       filter.copyWithNullable(level: () => null);
                 },
                 onTap: () {
-                  showModalBottomSheet(
+                  showCommonBottomSheet(
                     context: context,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(12))),
-                    clipBehavior: Clip.antiAlias,
                     builder: (context) => FilterOptionsView(
                       title: 'Level',
                       options: LogLevel.values,
@@ -70,12 +67,8 @@ class _LogPageState extends State<LogPage> {
                       filter.copyWithNullable(type: () => null);
                 },
                 onTap: () {
-                  showModalBottomSheet(
+                  showCommonBottomSheet(
                     context: context,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(12))),
-                    clipBehavior: Clip.antiAlias,
                     builder: (context) => FilterOptionsView(
                       title: 'Type',
                       options: widget.logger.types.value,
@@ -96,12 +89,8 @@ class _LogPageState extends State<LogPage> {
                       filter.copyWithNullable(tag: () => null);
                 },
                 onTap: () {
-                  showModalBottomSheet(
+                  showCommonBottomSheet(
                     context: context,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(12))),
-                    clipBehavior: Clip.antiAlias,
                     builder: (context) => FilterOptionsView(
                       title: 'Tag',
                       options: widget.logger.tags.value,
