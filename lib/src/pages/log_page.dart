@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
-import 'package:flutter_logkit/src/widgets/log_filter_item.dart';
-import 'package:flutter_logkit/src/widgets/log_record_item.dart';
+import 'package:flutter_logkit/src/widgets/widgets.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key, required this.logger});
@@ -25,7 +24,6 @@ class _LogPageState extends State<LogPage> {
     );
   }
 
-  /// TODO keyword
   Widget _buildFilter() {
     return Container(
       height: 32,
@@ -37,35 +35,104 @@ class _LogPageState extends State<LogPage> {
           valueListenable: widget.logger.filter,
           builder: (context, filter, child) => Row(
             children: [
-              LogFilterItem(
-                title: 'Level',
-                buttonText: filter.level?.name.toUpperCase() ?? 'Level',
-                fetchOptions: () => LogLevel.values,
-                genLabel: (option) => option.name.toUpperCase(),
-                selectedOption: filter.level,
-                onSelected: (v) {
+              LogFilterChip(
+                title: filter.level?.name.toUpperCase() ?? 'Level',
+                filtered: filter.level != null,
+                onClear: () {
                   widget.logger.filter.value =
-                      filter.copyWithNullable(level: () => v);
+                      filter.copyWithNullable(level: () => null);
+                },
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(12))),
+                    clipBehavior: Clip.antiAlias,
+                    builder: (context) => FilterOptionsView(
+                      title: 'Level',
+                      options: LogLevel.values,
+                      selectedOption: filter.level,
+                      genLabel: (option) => option.name.toUpperCase(),
+                      onSelected: (v) {
+                        widget.logger.filter.value =
+                            filter.copyWithNullable(level: () => v);
+                      },
+                    ),
+                  );
                 },
               ),
-              LogFilterItem(
-                title: 'Type',
-                buttonText: filter.type ?? 'Type',
-                fetchOptions: () => widget.logger.types.value,
-                selectedOption: filter.type,
-                onSelected: (v) {
+              LogFilterChip(
+                title: filter.type ?? 'Type',
+                filtered: filter.type?.isNotEmpty == true,
+                onClear: () {
                   widget.logger.filter.value =
-                      filter.copyWithNullable(type: () => v);
+                      filter.copyWithNullable(type: () => null);
+                },
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(12))),
+                    clipBehavior: Clip.antiAlias,
+                    builder: (context) => FilterOptionsView(
+                      title: 'Type',
+                      options: widget.logger.types.value,
+                      selectedOption: filter.type,
+                      onSelected: (v) {
+                        widget.logger.filter.value =
+                            filter.copyWithNullable(type: () => v);
+                      },
+                    ),
+                  );
                 },
               ),
-              LogFilterItem(
-                title: 'Tag',
-                buttonText: filter.tag ?? 'Tag',
-                fetchOptions: () => widget.logger.tags.value,
-                selectedOption: filter.tag,
-                onSelected: (v) {
+              LogFilterChip(
+                title: filter.tag ?? 'Tag',
+                filtered: filter.tag?.isNotEmpty == true,
+                onClear: () {
                   widget.logger.filter.value =
-                      filter.copyWithNullable(tag: () => v);
+                      filter.copyWithNullable(tag: () => null);
+                },
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(12))),
+                    clipBehavior: Clip.antiAlias,
+                    builder: (context) => FilterOptionsView(
+                      title: 'Tag',
+                      options: widget.logger.tags.value,
+                      selectedOption: filter.tag,
+                      onSelected: (v) {
+                        widget.logger.filter.value =
+                            filter.copyWithNullable(tag: () => v);
+                      },
+                    ),
+                  );
+                },
+              ),
+              LogFilterChip(
+                title: filter.keyword ?? 'Keyword',
+                filtered: filter.keyword?.isNotEmpty == true,
+                onClear: () {
+                  widget.logger.filter.value =
+                      filter.copyWithNullable(keyword: () => null);
+                },
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => FilterSearchView(
+                      title: 'Keyword',
+                      initialValue: filter.keyword,
+                      onSubmit: (String? value) {
+                        widget.logger.filter.value =
+                            filter.copyWithNullable(keyword: () => value);
+                      },
+                    ),
+                  );
                 },
               ),
             ],

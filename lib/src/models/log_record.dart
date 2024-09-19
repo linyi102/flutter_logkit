@@ -24,4 +24,7 @@ abstract class LogRecord {
   }
 
   String generatePrint() => message;
+
+  String get fullMessage =>
+      [level, type, tag, formatedTime, message, error, stackTrace].join('\n');
 }
