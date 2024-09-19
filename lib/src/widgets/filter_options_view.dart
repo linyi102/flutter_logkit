@@ -5,22 +5,22 @@ class FilterOptionsView<T> extends StatefulWidget {
     super.key,
     required this.title,
     required this.options,
-    this.genLabel,
+    this.labelGenerator,
     this.selectedOption,
     required this.onSelected,
   });
   final String title;
   final List<T> options;
-  final String? Function(T option)? genLabel;
+  final String Function(T option)? labelGenerator;
   final T? selectedOption;
   final ValueChanged<T?> onSelected;
 
   @override
-  State<FilterOptionsView> createState() => _FilterOptionsViewState();
+  State<FilterOptionsView> createState() => _FilterOptionsViewState<T>();
 }
 
-class _FilterOptionsViewState<T> extends State<FilterOptionsView> {
-  late T selectedOption = widget.selectedOption;
+class _FilterOptionsViewState<T> extends State<FilterOptionsView<T>> {
+  late T? selectedOption = widget.selectedOption;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class _FilterOptionsViewState<T> extends State<FilterOptionsView> {
         itemCount: widget.options.length,
         itemBuilder: (context, index) {
           final option = widget.options[index];
-          return RadioListTile(
-            title: Text(widget.genLabel?.call(option) ?? option.toString()),
+          return RadioListTile<T>(
+            title: Text(widget.labelGenerator?.call(option) ?? option.toString()),
             toggleable: true,
             onChanged: (v) {
               setState(() {

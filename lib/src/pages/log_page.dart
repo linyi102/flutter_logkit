@@ -53,7 +53,7 @@ class _LogPageState extends State<LogPage> {
                       title: 'Level',
                       options: LogLevel.values,
                       selectedOption: filter.level,
-                      genLabel: (option) => option.name.toUpperCase(),
+                      labelGenerator: (option) => option.name.toUpperCase(),
                       onSelected: (v) {
                         widget.logger.filter.value =
                             filter.copyWithNullable(level: () => v);

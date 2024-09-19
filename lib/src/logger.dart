@@ -131,7 +131,7 @@ class LogkitLogger {
       _logger.log(record.level.toLoggerLevel(), record.consoleMessage,
           time: record.time);
     }
-    if (!types.value.contains(record.type)) {
+    if (record.type.isNotEmpty && !types.value.contains(record.type)) {
       types.value = [...types.value, record.type];
     }
     if (record.tag.isNotEmpty && !tags.value.contains(record.tag)) {
