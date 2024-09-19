@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_logkit/utils/snackbar.dart';
+import 'package:flutter_logkit/src/utils/snackbar.dart';
 
 class ClipboardUtil {
   static copy({required BuildContext context, required String text}) async {

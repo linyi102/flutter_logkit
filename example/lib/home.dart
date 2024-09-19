@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:example/http/dio_log_interceptor.dart';
 import 'package:example/log.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/models/log_settings.dart';
-import 'package:flutter_logkit/models/http_log_record.dart';
+import 'package:flutter_logkit/logkit.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -14,15 +14,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final logTopic = 'Home';
+  final logTag = 'Home';
+  final dio = Dio()..interceptors.add(DioLogInterceptor(logger));
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      logger.i('attach logkit overlay');
-      logger.attachOverlay(context);
-    });
+    logger.info('attach logkit overlay');
+    logger.attachOverlay(context);
   }
 
   @override
@@ -34,15 +33,24 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: const Text('tap without print time'),
             onTap: () {
-              logger.i('tap',
-                  tag: logTopic, settings: const LogSettings(printTime: false));
+              logger.info('tap',
+                  tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
             title: const Text('long message'),
             onTap: () {
-              logger.i('long' * 99,
-                  tag: logTopic, settings: const LogSettings(printTime: false));
+              logger.info('long' * 99,
+                  tag: logTag, settings: const LogSettings(printTime: false));
+            },
+          ),
+          ListTile(
+            title: const Text('for log'),
+            onTap: () async {
+              for (int i = 0; i < 5; i++) {
+                await Future.delayed(const Duration(seconds: 1));
+                logger.info('for $i', tag: logTag);
+              }
             },
           ),
           ListTile(
@@ -51,8 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               try {
                 throw ArgumentError.notNull('name1');
               } catch (e, stack) {
-                logger.e(e.toString(),
-                    title: 'catch error', error: e, stackTrace: stack);
+                logger.error('manual catch error', error: e, stackTrace: stack);
               }
             },
           ),
@@ -63,30 +70,23 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
-            title: const Text('network'),
+            title: const Text('http baidu'),
             onTap: () async {
-              final dio = Dio();
               final options = RequestOptions(
                   path: 'https://www.baidu.com',
                   method: 'get',
                   headers: {
                     'platform': 'mac',
                   });
-              logger.logTyped(HttpRequestLogRecord.generate(
-                method: options.method,
-                url: options.uri.toString(),
-                headers: options.headers,
-                body: options.data,
-              ));
-              final resp = await dio.fetch(options);
-              logger.logTyped(HttpResponseLogRecord.generate(
-                method: resp.requestOptions.method,
-                url: resp.requestOptions.uri.toString(),
-                statusCode: resp.statusCode,
-                statusMessage: resp.statusMessage,
-                headers: resp.headers,
-                body: resp.data,
-              ));
+              await dio.fetch(options);
+            },
+          ),
+          ListTile(
+            title: const Text('http error'),
+            onTap: () async {
+              await dio.post('https://www.none.com', data: {
+                'prop': 'value',
+              });
             },
           ),
         ],

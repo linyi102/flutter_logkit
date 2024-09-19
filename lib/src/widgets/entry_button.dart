@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/logger.dart';
-import 'package:flutter_logkit/pages/log_page.dart';
+import 'package:flutter_logkit/src/logger.dart';
+import 'package:flutter_logkit/src/pages/log_page.dart';
 
 class DraggableEntryButton extends StatefulWidget {
   const DraggableEntryButton({super.key, required this.logger});

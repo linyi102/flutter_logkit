@@ -1,3 +1,5 @@
 library logkit;
 
-export './logger.dart';
+export 'src/logger.dart';
+export 'src/models/models.dart';
+export 'src/observers/observers.dart';

@@ -1,5 +1,6 @@
 import 'package:example/home.dart';
 import 'package:example/log.dart';
+import 'package:flutter_logkit/logkit.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
+      navigatorObservers: [RouterLogObserver(logger)],
       home: const MyHomePage(title: 'Logkit Demo'),
     );
   }

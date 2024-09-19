@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
-import 'package:flutter_logkit/widgets/entry_button.dart';
+import 'package:flutter_logkit/src/widgets/entry_button.dart';
 
 class LogkitOverlay extends StatelessWidget {
   const LogkitOverlay._({required this.logger});
@@ -11,9 +11,11 @@ class LogkitOverlay extends StatelessWidget {
     required BuildContext context,
     required LogkitLogger logger,
   }) {
-    _overlayEntry =
-        OverlayEntry(builder: (context) => LogkitOverlay._(logger: logger));
-    Overlay.of(context).insert(_overlayEntry!);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _overlayEntry =
+          OverlayEntry(builder: (context) => LogkitOverlay._(logger: logger));
+      Overlay.of(context).insert(_overlayEntry!);
+    });
   }
 
   @override
