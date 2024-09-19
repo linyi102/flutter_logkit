@@ -39,44 +39,40 @@ class LogkitLogger {
     LogkitOverlay.attach(context: context, logger: this);
   }
 
-  /// Log a message at level [Level.trace].
-  void t(
+  void trace(
     String? message, {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(LogLevel.trace, message,
+    log(LogLevel.trace, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
-  /// Log a message at level [Level.debug].
-  void d(
+  void debug(
     String? message, {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(LogLevel.debug, message,
+    log(LogLevel.debug, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
-  /// Log a message at level [Level.info].
-  void i(
+  void info(
     String? message, {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(LogLevel.info, message,
+    log(LogLevel.info, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
-  /// Log a message at level [Level.warning].
-  void w(
+  void warning(
     String? message, {
     DateTime? time,
     Object? error,
@@ -84,23 +80,22 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(LogLevel.warning, message,
+    log(LogLevel.warning, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
-  /// Log a message at level [Level.error].
-  void e(
+  void error(
     String? message, {
     Object? error,
     StackTrace? stackTrace,
     String? tag,
     LogSettings? settings,
   }) {
-    logPrint(LogLevel.error, message,
+    log(LogLevel.error, message,
         error: error, stackTrace: stackTrace, tag: tag, settings: settings);
   }
 
-  void logPrint(
+  void log(
     LogLevel level,
     String? message, {
     Object? error,
@@ -140,7 +135,7 @@ class LogkitLogger {
 
   void setupErrorCollector({bool printLog = true}) {
     FlutterError.onError = (details) {
-      e(
+      error(
         'Unhandled Exception',
         error: details.exception,
         stackTrace: details.stack,
@@ -148,10 +143,10 @@ class LogkitLogger {
         tag: 'FlutterError',
       );
     };
-    PlatformDispatcher.instance.onError = (error, stack) {
-      e(
+    PlatformDispatcher.instance.onError = (err, stack) {
+      error(
         'Unhandled Exception',
-        error: error,
+        error: err,
         stackTrace: stack,
         settings: logSettings.copyWith(printLog: printLog),
         tag: 'PlatformDispatcher',

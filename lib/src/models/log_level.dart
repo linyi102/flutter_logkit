@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart' as logger;
 
 enum LogLevel {
-  all(0),
   trace(1000, color: Colors.grey),
   debug(2000, color: Colors.blueGrey),
   info(3000, color: Colors.blue),

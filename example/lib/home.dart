@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    logger.i('attach logkit overlay');
+    logger.info('attach logkit overlay');
     logger.attachOverlay(context);
   }
 
@@ -33,14 +33,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: const Text('tap without print time'),
             onTap: () {
-              logger.i('tap',
+              logger.info('tap',
                   tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
             title: const Text('long message'),
             onTap: () {
-              logger.i('long' * 99,
+              logger.info('long' * 99,
                   tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () async {
               for (int i = 0; i < 5; i++) {
                 await Future.delayed(const Duration(seconds: 1));
-                logger.i('for $i', tag: logTag);
+                logger.info('for $i', tag: logTag);
               }
             },
           ),
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               try {
                 throw ArgumentError.notNull('name1');
               } catch (e, stack) {
-                logger.e('manual catch error', error: e, stackTrace: stack);
+                logger.error('manual catch error', error: e, stackTrace: stack);
               }
             },
           ),
