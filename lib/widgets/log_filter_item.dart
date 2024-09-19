@@ -38,7 +38,30 @@ class LogFilterItem<T> extends StatelessWidget {
                   Theme.of(context).primaryColor.withOpacity(0.1))
               : null,
         ),
-        child: Text(buttonText ?? title),
+        child: Row(
+          children: [
+            Text(buttonText ?? title),
+            if (selectedOption != null) _buildClearButton(context)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildClearButton(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 5),
+      child: GestureDetector(
+        onTap: () => onSelected(null),
+        child: Container(
+          height: 18,
+          width: 18,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.close, size: 14),
+        ),
       ),
     );
   }
