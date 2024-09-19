@@ -1,10 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/src/models/log_level.dart';
-import 'package:flutter_logkit/src/models/log_record.dart';
-import 'package:flutter_logkit/src/models/log_record_filter.dart';
-import 'package:flutter_logkit/src/models/simple_log_record.dart';
-import 'package:flutter_logkit/src/models/log_settings.dart';
+import 'package:flutter_logkit/src/models/models.dart';
 import 'package:flutter_logkit/src/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
 
@@ -18,10 +14,10 @@ class LogkitLogger {
   ValueNotifier<List<String>> get types => _types;
   ValueNotifier<List<String>> get tags => _tags;
   ValueNotifier<LogRecordFilter> get filter => _filter;
-  final LogSettings logSettings;
+  final LogkitSettings logSettings;
 
   LogkitLogger({
-    this.logSettings = const LogSettings(printToConsole: true, printTime: true),
+    this.logSettings = const LogkitSettings(),
   }) {
     _logger = Logger(
       printer: PrettyPrinter(
@@ -126,11 +122,33 @@ class LogkitLogger {
     LogRecord record, {
     LogSettings? settings,
   }) {
-    records.value = [...records.value, record];
     if ((settings ?? logSettings).printToConsole) {
       _logger.log(record.level.toLoggerLevel(), record.consoleMessage,
           time: record.time);
     }
+
+    records.value = [...records.value, record];
+    _updateAfterAddRecord(record);
+
+    final maxLogCount = logSettings.maxLogCount;
+    if (maxLogCount != null &&
+        records.value.length > maxLogCount &&
+        records.value.isNotEmpty) {
+      final removedRecord = records.value.removeAt(0);
+      _updateAfterRemoveRecord(removedRecord);
+    }
+  }
+
+  void _updateAfterRemoveRecord(LogRecord record) {
+    if (records.value.indexWhere((e) => e.type == record.type) < 0) {
+      types.value = types.value.where((e) => e != record.type).toList();
+    }
+    if (records.value.indexWhere((e) => e.tag == record.tag) < 0) {
+      tags.value = tags.value.where((e) => e != record.tag).toList();
+    }
+  }
+
+  void _updateAfterAddRecord(LogRecord record) {
     if (record.type.isNotEmpty && !types.value.contains(record.type)) {
       types.value = [...types.value, record.type];
     }
