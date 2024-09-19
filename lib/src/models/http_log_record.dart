@@ -1,7 +1,7 @@
-import 'package:flutter_logkit/models/log_level.dart';
-import 'package:flutter_logkit/models/log_record.dart';
-import 'package:flutter_logkit/models/log_record_type.dart';
-import 'package:flutter_logkit/utils/pretty.dart';
+import 'package:flutter_logkit/src/models/log_level.dart';
+import 'package:flutter_logkit/src/models/log_record.dart';
+import 'package:flutter_logkit/src/models/log_record_type.dart';
+import 'package:flutter_logkit/src/utils/pretty.dart';
 
 class HttpRequestLogRecord extends LogRecord {
   HttpRequestLogRecord._({

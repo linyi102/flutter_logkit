@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/models/log_level.dart';
-import 'package:flutter_logkit/models/log_record.dart';
-import 'package:flutter_logkit/models/log_record_filter.dart';
-import 'package:flutter_logkit/models/simple_log_record.dart';
-import 'package:flutter_logkit/models/log_settings.dart';
-import 'package:flutter_logkit/widgets/logkit_overlay.dart';
+import 'package:flutter_logkit/src/models/log_level.dart';
+import 'package:flutter_logkit/src/models/log_record.dart';
+import 'package:flutter_logkit/src/models/log_record_filter.dart';
+import 'package:flutter_logkit/src/models/simple_log_record.dart';
+import 'package:flutter_logkit/src/models/log_settings.dart';
+import 'package:flutter_logkit/src/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
 
 class LogkitLogger {

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_logkit/models/log_level.dart';
+import 'package:flutter_logkit/src/models/log_level.dart';
 
 @immutable
 class LogRecordFilter {

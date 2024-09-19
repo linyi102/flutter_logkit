@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/models/log_record.dart';
-import 'package:flutter_logkit/pages/log_record_detail_page.dart';
+import 'package:flutter_logkit/src/models/log_record.dart';
+import 'package:flutter_logkit/src/pages/log_record_detail_page.dart';
 
 class LogRecordItem extends StatelessWidget {
   const LogRecordItem(this.record, {super.key});

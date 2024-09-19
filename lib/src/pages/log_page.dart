@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
-import 'package:flutter_logkit/models/log_level.dart';
-import 'package:flutter_logkit/widgets/log_filter_item.dart';
-import 'package:flutter_logkit/widgets/log_record_item.dart';
+import 'package:flutter_logkit/src/widgets/log_filter_item.dart';
+import 'package:flutter_logkit/src/widgets/log_record_item.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key, required this.logger});

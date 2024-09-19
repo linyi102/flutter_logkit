@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_logkit/models/log_record.dart';
-import 'package:flutter_logkit/utils/clipboard.dart';
-import 'package:flutter_logkit/utils/pretty.dart';
+import 'package:flutter_logkit/src/models/log_record.dart';
+import 'package:flutter_logkit/src/utils/clipboard.dart';
+import 'package:flutter_logkit/src/utils/pretty.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class RecordLogDetailPage extends StatelessWidget {

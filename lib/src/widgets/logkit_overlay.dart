@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
-import 'package:flutter_logkit/widgets/entry_button.dart';
+import 'package:flutter_logkit/src/widgets/entry_button.dart';
 
 class LogkitOverlay extends StatelessWidget {
   const LogkitOverlay._({required this.logger});

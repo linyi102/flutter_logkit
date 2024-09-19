@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
-import 'package:flutter_logkit/utils/pretty.dart';
+import 'package:flutter_logkit/src/utils/pretty.dart';
 
 class RouteLogRecord extends LogRecord {
   RouteLogRecord({

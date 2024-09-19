@@ -1,4 +1,4 @@
-import 'package:flutter_logkit/models/log_level.dart';
+import 'package:flutter_logkit/src/models/log_level.dart';
 import 'package:intl/intl.dart';
 
 abstract class LogRecord {
