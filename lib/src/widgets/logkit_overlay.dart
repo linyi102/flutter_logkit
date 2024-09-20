@@ -11,10 +11,18 @@ class LogkitOverlay extends StatelessWidget {
     required BuildContext context,
     required LogkitLogger logger,
   }) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    if (_overlayEntry != null) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final overlay = Overlay.maybeOf(context);
+      if (overlay == null) {
+        logger.error('No Overlay widget found.');
+        return;
+      }
+
       _overlayEntry =
           OverlayEntry(builder: (context) => LogkitOverlay._(logger: logger));
-      Overlay.of(context).insert(_overlayEntry!);
+      overlay.insert(_overlayEntry!);
     });
   }
 
