@@ -31,3 +31,29 @@ class LogkitOverlay extends StatelessWidget {
     return DraggableEntryButton(logger: logger);
   }
 }
+
+class LogkitOverlayAttacher extends StatefulWidget {
+  const LogkitOverlayAttacher({
+    super.key,
+    required this.child,
+    required this.logger,
+  });
+  final Widget child;
+  final LogkitLogger logger;
+
+  @override
+  State<LogkitOverlayAttacher> createState() => _LogkitOverlayAttacherState();
+}
+
+class _LogkitOverlayAttacherState extends State<LogkitOverlayAttacher> {
+  @override
+  void initState() {
+    super.initState();
+    widget.logger.attachOverlay(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+}

@@ -20,7 +20,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       navigatorObservers: [RouterLogObserver(logger)],
-      home: const MyHomePage(title: 'Logkit Demo'),
+      home: LogkitOverlayAttacher(
+        logger: logger,
+        child: const MyHomePage(title: 'Logkit Demo'),
+      ),
     );
   }
 }

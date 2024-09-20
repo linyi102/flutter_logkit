@@ -18,13 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final dio = Dio()..interceptors.add(DioLogInterceptor(logger));
 
   @override
-  void initState() {
-    super.initState();
-    logger.info('attach logkit overlay');
-    logger.attachOverlay(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
