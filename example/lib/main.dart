@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       navigatorObservers: [RouterLogObserver(logger)],
       home: LogkitOverlayAttacher(
         logger: logger,

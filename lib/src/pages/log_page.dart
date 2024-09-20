@@ -15,7 +15,15 @@ class _LogPageState extends State<LogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('LOG')),
+      appBar: AppBar(
+        title: const Text('LOG'),
+        actions: [
+          IconButton(
+            onPressed: widget.logger.shareLogs,
+            icon: const Icon(Icons.share),
+          )
+        ],
+      ),
       body: Column(
         children: [
           _buildFilter(),

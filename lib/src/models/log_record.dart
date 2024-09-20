@@ -25,9 +25,13 @@ abstract class LogRecord {
     return DateFormat('yy-MM-dd HH:mm:ss').format(time);
   }
 
-  String get consoleMessage {
+  String get consoleMessage => _fullMessage(settings);
+
+  String get fullMessage => _fullMessage(const LogSettings());
+
+  String _fullMessage(LogSettings logSettings) {
     final texts = [
-      if (settings.printTime) '[$formatedTime]',
+      if (logSettings.printTime) '[$formatedTime]',
       if (type.isNotEmpty) '[$type]',
       if (tag.isNotEmpty) '[$tag]',
       if (message.isNotEmpty) message,
@@ -39,14 +43,4 @@ abstract class LogRecord {
     ];
     return lines.join('\n');
   }
-
-  String get fullMessage => [
-        level,
-        type,
-        tag,
-        formatedTime,
-        message,
-        error,
-        stackTrace
-      ].where((e) => e != null && e != '').join('\n');
 }

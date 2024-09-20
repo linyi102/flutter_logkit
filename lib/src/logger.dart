@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/src/models/models.dart';
 import 'package:flutter_logkit/src/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+import 'package:share_plus/share_plus.dart';
 
 class LogkitLogger {
   late final Logger _logger;
@@ -177,5 +182,22 @@ class LogkitLogger {
       );
       return true;
     };
+  }
+
+  Future<void> shareLogs() async {
+    final dir = await getTemporaryDirectory();
+    final time = DateTime.now().toString().replaceAll(':', '-');
+    final fileName = 'logkit_$time.log';
+    final file = await File(p.join(dir.path, fileName)).create();
+    final io = file.openWrite();
+    try {
+      for (final record in records.value) {
+        io.writeln(record.fullMessage);
+      }
+    } finally {
+      await io.flush();
+      await io.close();
+    }
+    Share.shareXFiles([XFile(file.path)]).then((_) => file.delete());
   }
 }
