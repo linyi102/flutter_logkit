@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/src/models/models.dart';
+import 'package:flutter_logkit/src/utils/windows.dart';
 import 'package:flutter_logkit/src/widgets/logkit_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
@@ -188,7 +189,8 @@ class LogkitLogger {
     final dir = await getTemporaryDirectory();
     final time = DateTime.now().toString().replaceAll(':', '-');
     final fileName = 'logkit_$time.log';
-    final file = await File(p.join(dir.path, fileName)).create();
+    final file = await File(p.join(dir.path, 'logkit_logs', fileName))
+        .create(recursive: true);
     final io = file.openWrite();
     try {
       for (final record in records.value) {
@@ -198,6 +200,10 @@ class LogkitLogger {
       await io.flush();
       await io.close();
     }
-    Share.shareXFiles([XFile(file.path)]).then((_) => file.delete());
+    if (Platform.isWindows) {
+      WindowsUtil.locateFile(file.path);
+    } else {
+      Share.shareXFiles([XFile(file.path)]).then((_) => file.delete());
+    }
   }
 }
