@@ -72,12 +72,21 @@ class _DraggableEntryButtonState extends State<DraggableEntryButton> {
 
   Widget _buildIcon() {
     return Container(
-      padding: const EdgeInsets.all(10),
+      height: buttonSize.height,
+      width: buttonSize.width,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.04),
+        color: Theme.of(context).primaryColor,
         shape: BoxShape.circle,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(2.0, 2.0),
+            blurRadius: 8.0,
+            spreadRadius: 4.0,
+          ),
+        ],
       ),
-      child: const Icon(Icons.bug_report),
+      child: const Center(child: Icon(Icons.bug_report, color: Colors.white)),
     );
   }
 }
