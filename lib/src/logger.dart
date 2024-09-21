@@ -128,6 +128,8 @@ class LogkitLogger {
     LogRecord record, {
     LogSettings? settings,
   }) {
+    if (logSettings.disableRecordLog) return;
+
     if ((settings ?? logSettings).printToConsole) {
       _logger.log(record.level.toLoggerLevel(), record.consoleMessage,
           time: record.time);

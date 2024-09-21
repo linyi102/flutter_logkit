@@ -11,6 +11,7 @@ class LogkitOverlay extends StatelessWidget {
     required BuildContext context,
     required LogkitLogger logger,
   }) {
+    if (logger.logSettings.disableAttachOverlay) return;
     if (_overlayEntry != null) return;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
