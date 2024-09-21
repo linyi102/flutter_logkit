@@ -20,10 +20,10 @@ class LogkitLogger {
   ValueNotifier<List<String>> get types => _types;
   ValueNotifier<List<String>> get tags => _tags;
   ValueNotifier<LogRecordFilter> get filter => _filter;
-  final LogkitSettings logSettings;
+  final LogkitSettings logkitSettings;
 
   LogkitLogger({
-    this.logSettings = const LogkitSettings(),
+    this.logkitSettings = const LogkitSettings(),
   }) {
     _logger = Logger(
       printer: PrettyPrinter(
@@ -111,7 +111,7 @@ class LogkitLogger {
     String? tag,
     LogSettings? settings,
   }) {
-    settings ??= logSettings;
+    settings ??= logkitSettings;
 
     final record = SimpleLogRecord(
       message: message ?? '',
@@ -128,9 +128,9 @@ class LogkitLogger {
     LogRecord record, {
     LogSettings? settings,
   }) {
-    if (logSettings.disableRecordLog) return;
+    if (logkitSettings.disableRecordLog) return;
 
-    if ((settings ?? logSettings).printToConsole) {
+    if ((settings ?? logkitSettings).printToConsole) {
       _logger.log(record.level.toLoggerLevel(), record.consoleMessage,
           time: record.time);
     }
@@ -138,7 +138,7 @@ class LogkitLogger {
     records.value = [...records.value, record];
     _updateAfterAddRecord(record);
 
-    final maxLogCount = logSettings.maxLogCount;
+    final maxLogCount = logkitSettings.maxLogCount;
     if (maxLogCount != null &&
         records.value.length > maxLogCount &&
         records.value.isNotEmpty) {
@@ -171,7 +171,7 @@ class LogkitLogger {
         'Unhandled Exception',
         error: details.exception,
         stackTrace: details.stack,
-        settings: logSettings.copyWith(printToConsole: printToConsole),
+        settings: logkitSettings.copyWith(printToConsole: printToConsole),
         tag: 'FlutterError',
       );
     };
@@ -180,7 +180,7 @@ class LogkitLogger {
         'Unhandled Exception',
         error: err,
         stackTrace: stack,
-        settings: logSettings.copyWith(printToConsole: printToConsole),
+        settings: logkitSettings.copyWith(printToConsole: printToConsole),
         tag: 'PlatformDispatcher',
       );
       return true;
