@@ -13,4 +13,4 @@ final logger = LogkitLogger(
     printTime: true,
     maxLogCount: 100,
   ),
-);
+)..setupErrorCollector();

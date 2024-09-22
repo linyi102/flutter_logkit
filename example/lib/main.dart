@@ -4,7 +4,6 @@ import 'package:flutter_logkit/logkit.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  logger.setupErrorCollector();
   runApp(const MyApp());
 }
 
