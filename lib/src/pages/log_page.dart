@@ -158,6 +158,7 @@ class _LogPageState extends State<LogPage> {
       builder: (context, child) {
         final filteredRecords = widget.logger.filterRecords();
         return ListView.separated(
+          padding: const EdgeInsets.only(bottom: 20),
           itemCount: filteredRecords.length,
           itemBuilder: (context, index) {
             final record = filteredRecords[filteredRecords.length - 1 - index];

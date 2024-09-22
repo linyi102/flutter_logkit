@@ -26,7 +26,10 @@ class LogRecordItem extends StatelessWidget {
                 Expanded(
                     child: Text(
                   '${record.level.name.toUpperCase()} | ${record.type}',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: record.level.color),
                 ))
               ],
             ),
