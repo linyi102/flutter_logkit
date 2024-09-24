@@ -4,7 +4,10 @@ import 'package:flutter_logkit/logkit.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runLogkitZonedGuarded(
+    logger,
+    () => runApp(const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {

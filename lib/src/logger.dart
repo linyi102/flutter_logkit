@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/src/models/models.dart';
 import 'package:flutter_logkit/src/utils/windows.dart';
@@ -163,26 +163,6 @@ class LogkitLogger {
     if (record.tag.isNotEmpty && !tags.value.contains(record.tag)) {
       tags.value = [...tags.value, record.tag];
     }
-  }
-
-  void setupErrorCollector({bool printToConsole = true}) {
-    FlutterError.onError = (details) {
-      logTyped(UnhandledErrorLogRecord(
-        message: details.exception.toString(),
-        stackTrace: details.stack,
-        tag: 'FlutterError',
-        settings: logkitSettings.copyWith(printToConsole: printToConsole),
-      ));
-    };
-    PlatformDispatcher.instance.onError = (err, stack) {
-      logTyped(UnhandledErrorLogRecord(
-        message: err.toString(),
-        stackTrace: stack,
-        tag: 'PlatformDispatcher',
-        settings: logkitSettings.copyWith(printToConsole: printToConsole),
-      ));
-      return true;
-    };
   }
 
   Future<void> shareLogs() async {

@@ -24,21 +24,21 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: [
           ListTile(
-            title: const Text('tap without print time'),
+            title: const Text('Tap without print time'),
             onTap: () {
               logger.info('tap',
                   tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
-            title: const Text('long message'),
+            title: const Text('Long message'),
             onTap: () {
               logger.info('long' * 99,
                   tag: logTag, settings: const LogSettings(printTime: false));
             },
           ),
           ListTile(
-            title: const Text('for log'),
+            title: const Text('For log'),
             onTap: () async {
               for (int i = 0; i < 5; i++) {
                 await Future.delayed(const Duration(seconds: 1));
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
-            title: const Text('Catch Exception'),
+            title: const Text('Manual Catch Exception'),
             onTap: () {
               try {
                 throw ArgumentError.notNull('name1');
@@ -57,13 +57,19 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
-            title: const Text('Unhandled Exception'),
+            title: const Text('Unhandled Exception (Sync)'),
             onTap: () {
-              throw ArgumentError.notNull('name2');
+              throw Exception('sync method');
             },
           ),
           ListTile(
-            title: const Text('http baidu'),
+            title: const Text('Unhandled Exception (Async)'),
+            onTap: () async {
+              throw Exception('async method');
+            },
+          ),
+          ListTile(
+            title: const Text('Http baidu'),
             onTap: () async {
               final options = RequestOptions(
                   path: 'https://www.baidu.com',
@@ -75,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
-            title: const Text('http error'),
+            title: const Text('Http error'),
             onTap: () async {
               await dio.post('https://www.none.com', data: {
                 'prop': 'value',
