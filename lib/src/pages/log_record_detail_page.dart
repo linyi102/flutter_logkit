@@ -28,7 +28,6 @@ class RecordLogDetailPage extends StatelessWidget {
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: SingleChildScrollView(
@@ -50,18 +49,18 @@ class RecordLogDetailPage extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'at ${record.formatedTime}${record.tag.isNotEmpty ? ' in ${record.tag}' : ''}',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).hintColor,
-                    height: 1.5,
-                  ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          'at ${record.formatedTime}${record.tag.isNotEmpty ? ' in ${record.tag}' : ''}',
+          textAlign: TextAlign.center,
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: Theme.of(context).hintColor),
+        ),
       ),
     );
   }
