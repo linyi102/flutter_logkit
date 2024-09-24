@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_logkit/logkit.dart';
@@ -34,6 +35,14 @@ void _setupErrorCollector(
         tag: 'PlatformDispatcher', printToConsole: printToConsole);
     return true;
   };
+  if (!kIsWeb) {
+    Isolate.current.addErrorListener(RawReceivePort((dynamic pair) async {
+      final isolateError = pair as List<dynamic>;
+      _log(logger, isolateError.first.toString(),
+          StackTrace.fromString(isolateError.last.toString()),
+          tag: 'Isolate', printToConsole: printToConsole);
+    }).sendPort);
+  }
 }
 
 void _log(

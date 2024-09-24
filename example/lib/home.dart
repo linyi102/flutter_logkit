@@ -1,6 +1,9 @@
+import 'dart:isolate';
+
 import 'package:dio/dio.dart';
 import 'package:example/http/dio_log_interceptor.dart';
 import 'package:example/log.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
 
@@ -69,6 +72,48 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           ListTile(
+            title: const Text('Compute Exception'),
+            onTap: () {
+              compute(_errorSquare, 3);
+            },
+          ),
+          ListTile(
+            title: const Text('Isolate.run Exception'),
+            onTap: () {
+              Isolate.run(() => _errorSquare(3));
+            },
+          ),
+          ListTile(
+            title: const Text('Isolate.spawn Exception'),
+            onTap: () async {
+              int number = 3;
+              final receivePort = ReceivePort();
+              receivePort.listen((message) {
+                logger.info('isolate square($number)=$message');
+                receivePort.close();
+              });
+
+              final newIsolate = await Isolate.spawn(
+                (message) {
+                  final sendPort = message[0] as SendPort;
+                  final value = message[1] as num;
+                  throw Exception('isolate square error');
+                  // ignore: dead_code
+                  sendPort.send(value * value);
+                },
+                [receivePort.sendPort, number],
+                // 方法1：主isolate会收到[err, stack]数组消息
+                // onError: receivePort.sendPort,
+              );
+              // 方法2
+              // 注：Isolate.current.addErrorListener并不会监听到
+              newIsolate.addErrorListener(RawReceivePort((dynamic pair) async {
+                final isolateError = pair as List<dynamic>;
+                logger.error('catch isolate error: $isolateError');
+              }).sendPort);
+            },
+          ),
+          ListTile(
             title: const Text('Http baidu'),
             onTap: () async {
               final options = RequestOptions(
@@ -92,4 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+num _errorSquare(num value) {
+  throw Exception('compute square error');
+  // ignore: dead_code
+  return value * value;
 }
