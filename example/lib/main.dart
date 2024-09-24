@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 void main() {
   runLogkitZonedGuarded(
     logger,
-    () => runApp(const MyApp()),
+    () {
+      // [unhandled-error] [Zone] Exception: occured error before runApp
+      // throw Exception('occured error before runApp');
+      runApp(const MyApp());
+    },
   );
 }
 
