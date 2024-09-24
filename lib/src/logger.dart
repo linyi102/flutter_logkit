@@ -167,22 +167,20 @@ class LogkitLogger {
 
   void setupErrorCollector({bool printToConsole = true}) {
     FlutterError.onError = (details) {
-      error(
-        'Unhandled Exception',
-        error: details.exception,
+      logTyped(UnhandledErrorLogRecord(
+        message: details.exception.toString(),
         stackTrace: details.stack,
-        settings: logkitSettings.copyWith(printToConsole: printToConsole),
         tag: 'FlutterError',
-      );
+        settings: logkitSettings.copyWith(printToConsole: printToConsole),
+      ));
     };
     PlatformDispatcher.instance.onError = (err, stack) {
-      error(
-        'Unhandled Exception',
-        error: err,
+      logTyped(UnhandledErrorLogRecord(
+        message: err.toString(),
         stackTrace: stack,
-        settings: logkitSettings.copyWith(printToConsole: printToConsole),
         tag: 'PlatformDispatcher',
-      );
+        settings: logkitSettings.copyWith(printToConsole: printToConsole),
+      ));
       return true;
     };
   }

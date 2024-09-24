@@ -3,7 +3,8 @@ enum LogRecordType {
   httpRequest('http-request'),
   httpResponse('http-response'),
   httpError('http-error'),
-  route('route');
+  route('route'),
+  unhandledError('unhandled-error');
 
   final String key;
   const LogRecordType(this.key);
