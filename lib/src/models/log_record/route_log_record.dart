@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/logkit.dart';
-import 'package:flutter_logkit/src/utils/pretty.dart';
 
 class RouteLogRecord extends LogRecord {
   RouteLogRecord({
@@ -20,8 +19,7 @@ class RouteLogRecord extends LogRecord {
       msg += ' from ${oldRoute.settings.name ?? '<unknown>'}';
     }
     if (route?.settings.arguments != null) {
-      msg += 'Arguments'.mdH3;
-      msg += route?.settings.arguments?.toString() ?? '';
+      msg += '\nArguments: ${route?.settings.arguments?.toString()}';
     }
     return RouteLogRecord(message: msg, tag: tag);
   }

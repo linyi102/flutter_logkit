@@ -11,17 +11,3 @@ extension JsonPrettyExtension on Object? {
     }
   }
 }
-
-extension MarkdownPrettyExtension on String {
-  String get mdCodeblock {
-    return '```\n$this\n```';
-  }
-
-  String get mdH3 {
-    return mdHead(3);
-  }
-
-  String mdHead(int level) {
-    return '\n${'#' * level} $this\n';
-  }
-}

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_logkit/src/models/log_record.dart';
 import 'package:flutter_logkit/src/utils/clipboard.dart';
-import 'package:flutter_logkit/src/utils/pretty.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 class RecordLogDetailPage extends StatelessWidget {
   const RecordLogDetailPage({
@@ -14,6 +12,9 @@ class RecordLogDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle =
+        Theme.of(context).textTheme.titleMedium?.copyWith(height: 3);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,18 +28,26 @@ class RecordLogDetailPage extends StatelessWidget {
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Markdown(
-              data: [
-                record.message,
-                if (record.error != null)
-                  'Error'.mdH3 + record.error.toString(),
-                if (record.stackTrace != null)
-                  'Stacktrace'.mdH3 + record.stackTrace.toString(),
-              ].join(),
-              selectable: true,
-              softLineBreak: true,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                child: SelectableText.rich(
+                  TextSpan(children: [
+                    TextSpan(text: record.message.trim()),
+                    if (record.error != null) ...[
+                      TextSpan(text: '\nError\n', style: titleStyle),
+                      TextSpan(text: record.error?.toString()),
+                    ],
+                    if (record.stackTrace != null) ...[
+                      TextSpan(text: '\nStacktrace\n', style: titleStyle),
+                      TextSpan(text: record.stackTrace?.toString()),
+                    ]
+                  ]),
+                ),
+              ),
             ),
           ),
           Padding(
