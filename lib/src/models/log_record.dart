@@ -1,5 +1,4 @@
 import 'package:flutter_logkit/src/models/models.dart';
-import 'package:intl/intl.dart';
 
 abstract class LogRecord {
   final String type;
@@ -22,7 +21,11 @@ abstract class LogRecord {
   }) : time = DateTime.now();
 
   String get formatedTime {
-    return DateFormat('yy-MM-dd HH:mm:ss').format(time);
+    return '${_padZero(time.year % 100)}-${_padZero(time.month)}-${_padZero(time.day)} ${_padZero(time.hour)}:${_padZero(time.minute)}:${_padZero(time.second)}';
+  }
+
+  String _padZero(int number) {
+    return number.toString().padLeft(2, '0');
   }
 
   String get consoleMessage => _fullMessage(settings);
