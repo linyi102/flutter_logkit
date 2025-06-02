@@ -30,7 +30,8 @@ environment:
 dependencies:
   path: ^1.8.2
   path_provider: ^2.1.1
-  share_plus: ^7.2.2
+  share_plus: ^8.0.2
+  win32: ^5.5.3
   logger: ^2.4.0
   flutter:
     sdk: flutter
