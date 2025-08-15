@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.0.1+1
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -29,8 +29,15 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   path: ^1.8.2
-  path_provider: ^2.1.1
-  share_plus: ^8.0.2
+  path_provider:
+    git:
+      url: "https://gitcode.com/openharmony-sig/flutter_packages.git"
+      ref: "master"
+      path: "packages/path_provider/path_provider"
+  share_plus:
+    git:
+      url: "https://gitcode.com/openharmony-sig/flutter_plus_plugins.git"
+      path: "packages/share_plus/share_plus"
   win32: ^5.5.3
   logger: ^2.4.0
   flutter:
