@@ -421,10 +421,10 @@ packages:
     dependency: "direct main"
     description:
       name: win32
-      sha256: "68d1e89a91ed61ad9c370f9f8b6effed9ae5e0ede22a270bdfa6daf79fc2290a"
+      sha256: "5a751eddf9db89b3e5f9d50c20ab8612296e4e8db69009788d6c8b060a84191c"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.5.4"
+    version: "4.1.4"
   xdg_directories:
     dependency: transitive
     description:
@@ -434,5 +434,5 @@ packages:
     source: hosted
     version: "1.0.3"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
